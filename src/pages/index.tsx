@@ -18,6 +18,7 @@ import {
   faSackDollar,
   faCommentsDollar,
   faWallet,
+  faPlay,
 } from '@fortawesome/free-solid-svg-icons'
 import CircleOption from '../components/CircleOption'
 import Container from '../components/Container'
@@ -30,6 +31,9 @@ import {
   faUser,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import styles from '../styles/styles.module.css'
+import ToolTip from '../components/ToolTip'
+import { Tooltip } from 'react-daisyui'
 
 export default function Home() {
   const currentRefCarroussel = useRef<any>()
@@ -62,7 +66,7 @@ export default function Home() {
           <Menu>
             <Menu>
               <MenuItem
-                className="pt-3"
+                className="pt-3 "
                 icon={
                   <img
                     className="mask mask-circle"
@@ -75,20 +79,24 @@ export default function Home() {
                   <p className="text-2xl font-medium">Murilo</p>
                 </div>
               </MenuItem>
+
               <MenuItem
-                className="text-black/50"
+                className={`text-black/50 relative ${styles.hoverToolTip} `}
                 icon={<FontAwesomeIcon icon={faHome} className="w-6 h-6" />}
               >
                 Página inicial
+                <ToolTip title="Página inicial" />
               </MenuItem>
+
               <MenuItem
-                className="text-black/50"
+                className={`text-black/50 relative ${styles.hoverToolTip} `}
                 icon={<FontAwesomeIcon icon={faTags} className="w-6 h-6" />}
               >
                 Pedidos
+                <ToolTip title="Pedidos" />
               </MenuItem>
               <MenuItem
-                className="text-black/50"
+                className={`text-black/50 relative ${styles.hoverToolTip} `}
                 icon={
                   <div className="relative">
                     <FontAwesomeIcon icon={faStore} className="w-6 h-6" />
@@ -106,13 +114,14 @@ export default function Home() {
                 }
               >
                 Estoque
+                <ToolTip title="Estoque" />
                 <span className="badge badge-warning bg-warning gap-1 text-[#955B04] ml-3">
                   <FontAwesomeIcon icon={faExclamationCircle} />
                   Em breve
                 </span>
               </MenuItem>
               <MenuItem
-                className="text-black/50"
+                className={`text-black/50 relative ${styles.hoverToolTip} `}
                 icon={
                   <div className="relative">
                     <FontAwesomeIcon icon={faCoins} className="w-6 h-6" />
@@ -130,36 +139,41 @@ export default function Home() {
                 }
               >
                 Financeiro
+                <ToolTip title="Financeiro" />
                 <span className="badge badge-warning gap-1 text-[#955B04] ml-3">
                   <FontAwesomeIcon icon={faExclamationCircle} />
                   Em breve
                 </span>
               </MenuItem>
               <MenuItem
-                className="text-black/50"
+                className={`text-black/50 relative ${styles.hoverToolTip} `}
                 icon={<FontAwesomeIcon icon={faHome} className="w-6 h-6" />}
               >
                 Boas práticas
+                <ToolTip title="Boas práticas" />
               </MenuItem>
               <MenuItem
-                className="text-black/50"
+                className={`text-black/50 relative ${styles.hoverToolTip} `}
                 icon={
                   <FontAwesomeIcon icon={faNewspaper} className="w-6 h-6" />
                 }
               >
                 Tutorial
+                <ToolTip title="Tutorial" />
               </MenuItem>
               <MenuItem
-                className="text-black/50"
+                className={`text-black/50 relative ${styles.hoverToolTip} `}
                 icon={<FontAwesomeIcon icon={faUser} className="w-6 h-6" />}
               >
                 Minha Conta
+                <ToolTip title="Minha Conta" />
               </MenuItem>
               <MenuItem
-                className="text-black/50"
+                className={`text-black/50 relative ${styles.hoverToolTip} `}
                 icon={<FontAwesomeIcon icon={faPhone} className="w-6 h-6" />}
               >
                 Fale com a gente
+                <ToolTip title="Fale com a gente" />
               </MenuItem>
             </Menu>
           </Menu>

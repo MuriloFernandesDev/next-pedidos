@@ -18,7 +18,7 @@ const Header = ({ toggleDrawer, openDrawer }: DrawerProps) => {
   const { collapseSidebar } = useProSidebar()
   return (
     <React.Fragment>
-      <div className="flex justify-between items-center text-white p-5 md:px-4 bg-primary">
+      <div className="flex justify-between items-center text-white p-5 md:p-2 md:px-4 bg-primary">
         <button className="btn btn-sm bg-transparent border-transparent">
           <FontAwesomeIcon
             onClick={toggleDrawer}
