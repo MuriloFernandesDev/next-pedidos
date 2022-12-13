@@ -1,10 +1,7 @@
-import { faPix } from '@fortawesome/free-brands-svg-icons'
 import {
   faBell,
-  faCirclePlus,
   faHome,
   faNewspaper,
-  faReceipt,
   faTags,
   faUser,
 } from '@fortawesome/free-solid-svg-icons'
