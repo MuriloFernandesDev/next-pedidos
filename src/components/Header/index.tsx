@@ -1,20 +1,25 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faBell, faUser } from '@fortawesome/free-solid-svg-icons'
 import React from 'react'
-import DrawerComponent from '../DrawerComponent'
+import dynamic from 'next/dynamic'
+const DrawerComponent = dynamic(() => import('../DrawerComponent'), {
+  ssr: false,
+})
 import Link from 'next/link'
 import BlurImage from '../BlurImage'
 import LogoImg from '../../assets/images/LogoWhite.webp'
 import '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/free-regular-svg-icons'
 import { useProSidebar } from 'react-pro-sidebar'
+import { IUser } from '../../types/user'
 
 export interface DrawerProps {
   toggleDrawer: () => void
   openDrawer: boolean
+  user: IUser | null
 }
 
-const Header = ({ toggleDrawer, openDrawer }: DrawerProps) => {
+const Header = ({ toggleDrawer, openDrawer, user }: DrawerProps) => {
   const { collapseSidebar } = useProSidebar()
   return (
     <React.Fragment>
@@ -55,12 +60,16 @@ const Header = ({ toggleDrawer, openDrawer }: DrawerProps) => {
             </div>
             <div className="text-primary-content">
               <p className="text-xs">Bem-vindo, </p>
-              <p className="text-2xl font-medium">Murilo</p>
+              <p className="text-2xl font-medium">{user && user.name}</p>
             </div>
           </div>
         </div>
       </div>
-      <DrawerComponent openDrawer={openDrawer} toggleDrawer={toggleDrawer} />
+      <DrawerComponent
+        openDrawer={openDrawer}
+        toggleDrawer={toggleDrawer}
+        user={user}
+      />
     </React.Fragment>
   )
 }

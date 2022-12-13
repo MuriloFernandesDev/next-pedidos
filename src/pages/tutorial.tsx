@@ -1,6 +1,4 @@
 import Container from '../components/Container'
-import TutorialAula1Img from '../assets/images/tutorial-aula1.webp'
-import BlurImage from '../components/BlurImage'
 import CardTutorial from '../components/CardTutorial'
 
 function Tutorial() {

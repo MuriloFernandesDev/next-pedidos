@@ -13,7 +13,7 @@ import { DrawerProps } from '../Header'
 import JrImg from '../../assets/images/jrmodal.webp'
 import Link from 'next/link'
 
-const DrawerComponent = ({ openDrawer, toggleDrawer }: DrawerProps) => {
+const DrawerComponent = ({ openDrawer, toggleDrawer, user }: DrawerProps) => {
   return (
     <>
       <Drawer
@@ -27,9 +27,19 @@ const DrawerComponent = ({ openDrawer, toggleDrawer }: DrawerProps) => {
           <li>
             <button className="flex w-full justify-between">
               <div className="flex gap-3 justify-center items-center">
+                {/* {user.profile_photo_path ? (
+                  <BlurImage
+                    src={user.profile_photo_path}
+                    width={32}
+                    height={32}
+                    layout="fixed"
+                  />
+                ) : ( */}
                 <FontAwesomeIcon icon={faUserCircle} className="w-8 h-8" />
+                {/* )} */}
+
                 <div className="flex flex-col items-start">
-                  <h1 className="text-md font-semibold">Murilo Fernandes</h1>
+                  <h1 className="text-md font-semibold">{user && user.name}</h1>
                 </div>
               </div>
               <div onClick={toggleDrawer}>

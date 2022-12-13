@@ -9,7 +9,7 @@ interface Props {
   children: ReactElement
   span?: string
   title: string
-  progress: string | number
+  progress?: string | number
   titleButton?: string
 }
 
@@ -29,20 +29,21 @@ export const ContainerRegister = ({
       <div className="flex justify-center">
         <div className="card-body px-4 max-w-md gap-0 w-full flex flex-col justify-between h-[80vh] rounded-t-2xl absolute bg-primary-content">
           <div>
-            <div className="w-full flex flex-row gap-3 items-center mb-7">
-              <FontAwesomeIcon
-                onClick={() => router.back()}
-                icon={faArrowLeft}
-                className="text-black w-6 h-6 cursor-pointer"
-              />
-
-              <progress
-                className="progress progress-primary w-full"
-                value={progress}
-                max="100"
-              ></progress>
-              <div />
-            </div>
+            {progress && (
+              <div className="w-full flex flex-row gap-3 items-center mb-7">
+                <FontAwesomeIcon
+                  onClick={() => router.back()}
+                  icon={faArrowLeft}
+                  className="text-black w-6 h-6 cursor-pointer"
+                />
+                <progress
+                  className="progress progress-primary w-full"
+                  value={progress}
+                  max="100"
+                ></progress>
+                <div />
+              </div>
+            )}
             <span className="text-primary/60 text-sm font-normal">{span}</span>
             <h1 className="mt-2 text-black text-xl font-medium mb-5">
               {title}

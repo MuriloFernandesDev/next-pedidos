@@ -1,45 +1,42 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import Header from '../components/Header'
-import {
-  faCalendarDays,
-  faNewspaper,
-} from '@fortawesome/free-regular-svg-icons'
+import { faNewspaper } from '@fortawesome/free-regular-svg-icons'
 import {
   faStore,
   faTags,
   faDollar,
-  faBookBookmark,
-  faChartPie,
-  faBeerMugEmpty,
   faExclamationCircle,
-  faExclamation,
   faHeart,
   faHeartCircleExclamation,
   faSackDollar,
-  faCommentsDollar,
   faWallet,
-  faPlay,
 } from '@fortawesome/free-solid-svg-icons'
 import CircleOption from '../components/CircleOption'
 import Container from '../components/Container'
 import CardMatch from '../components/CardMatch'
-import { Sidebar, Menu, MenuItem, useProSidebar } from 'react-pro-sidebar'
-import {
-  faCoins,
-  faHome,
-  faPhone,
-  faUser,
-} from '@fortawesome/free-solid-svg-icons'
+import { useProSidebar } from 'react-pro-sidebar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import styles from '../styles/styles.module.css'
-import ToolTip from '../components/ToolTip'
-import { Tooltip } from 'react-daisyui'
+import { AuthContext } from '../contexts/AuthContext'
+import { PersistentLogin } from '../utils/PersistentLogin'
+import { setupAPIClient } from '../service/api'
+import { Carousel } from 'react-responsive-carousel'
+import 'react-responsive-carousel/lib/styles/carousel.min.css'
+import BlurImage from '../components/BlurImage'
+import noOpportunitiesImg from '../assets/images/noOpportunities.webp'
+import Router from 'next/router'
+import SideBarDesktop from '../components/SideBarDesktop'
+import { IOpportunities } from '../types/user'
 
-export default function Home() {
+interface HomeProps {
+  Opportunities: Array<IOpportunities>
+}
+
+export default function Home({ Opportunities }: HomeProps) {
   const currentRefCarroussel = useRef<any>()
   const [currentSlide, setCurrentSlide] = useState(1)
   const [openDrawer, setOpenDrawer] = useState(false)
   const { collapsed } = useProSidebar()
+  const { user, signOut } = useContext(AuthContext)
 
   function next() {
     const maxCurrent = currentRefCarroussel.current?.itemsRef.length
@@ -58,133 +55,18 @@ export default function Home() {
   return (
     <div className="relative max-w-md md:max-w-none mx-auto">
       <div className="flex">
-        <Sidebar
-          collapsedWidth="70px"
-          width="300px"
-          className="hidden md:flex h-screen top-0 fixed"
-        >
-          <Menu>
-            <Menu>
-              <MenuItem
-                className="pt-3 "
-                icon={
-                  <img
-                    className="mask mask-circle"
-                    src="https://placeimg.com/180/180/arch"
-                  />
-                }
-              >
-                <div className="text-primary">
-                  <p className="text-xs">Bem-vindo, </p>
-                  <p className="text-2xl font-medium">Murilo</p>
-                </div>
-              </MenuItem>
-
-              <MenuItem
-                className={`text-black/50 relative ${styles.hoverToolTip} `}
-                icon={<FontAwesomeIcon icon={faHome} className="w-6 h-6" />}
-              >
-                Página inicial
-                <ToolTip title="Página inicial" />
-              </MenuItem>
-
-              <MenuItem
-                className={`text-black/50 relative ${styles.hoverToolTip} `}
-                icon={<FontAwesomeIcon icon={faTags} className="w-6 h-6" />}
-              >
-                Pedidos
-                <ToolTip title="Pedidos" />
-              </MenuItem>
-              <MenuItem
-                className={`text-black/50 relative ${styles.hoverToolTip} `}
-                icon={
-                  <div className="relative">
-                    <FontAwesomeIcon icon={faStore} className="w-6 h-6" />
-                    <span
-                      className={`badge p-1 left-4 -top-2 badge-warning absolute ${
-                        !collapsed && 'hidden'
-                      }`}
-                    >
-                      <FontAwesomeIcon
-                        icon={faExclamation}
-                        className="w-3 h-3 text-[#955B04] "
-                      />
-                    </span>
-                  </div>
-                }
-              >
-                Estoque
-                <ToolTip title="Estoque" />
-                <span className="badge badge-warning bg-warning gap-1 text-[#955B04] ml-3">
-                  <FontAwesomeIcon icon={faExclamationCircle} />
-                  Em breve
-                </span>
-              </MenuItem>
-              <MenuItem
-                className={`text-black/50 relative ${styles.hoverToolTip} `}
-                icon={
-                  <div className="relative">
-                    <FontAwesomeIcon icon={faCoins} className="w-6 h-6" />
-                    <span
-                      className={`badge p-1 left-4 -top-2 badge-warning absolute ${
-                        !collapsed && 'hidden'
-                      }`}
-                    >
-                      <FontAwesomeIcon
-                        icon={faExclamation}
-                        className="w-3 h-3 text-[#955B04]"
-                      />
-                    </span>
-                  </div>
-                }
-              >
-                Financeiro
-                <ToolTip title="Financeiro" />
-                <span className="badge badge-warning gap-1 text-[#955B04] ml-3">
-                  <FontAwesomeIcon icon={faExclamationCircle} />
-                  Em breve
-                </span>
-              </MenuItem>
-              <MenuItem
-                className={`text-black/50 relative ${styles.hoverToolTip} `}
-                icon={<FontAwesomeIcon icon={faHome} className="w-6 h-6" />}
-              >
-                Boas práticas
-                <ToolTip title="Boas práticas" />
-              </MenuItem>
-              <MenuItem
-                className={`text-black/50 relative ${styles.hoverToolTip} `}
-                icon={
-                  <FontAwesomeIcon icon={faNewspaper} className="w-6 h-6" />
-                }
-              >
-                Tutorial
-                <ToolTip title="Tutorial" />
-              </MenuItem>
-              <MenuItem
-                className={`text-black/50 relative ${styles.hoverToolTip} `}
-                icon={<FontAwesomeIcon icon={faUser} className="w-6 h-6" />}
-              >
-                Minha Conta
-                <ToolTip title="Minha Conta" />
-              </MenuItem>
-              <MenuItem
-                className={`text-black/50 relative ${styles.hoverToolTip} `}
-                icon={<FontAwesomeIcon icon={faPhone} className="w-6 h-6" />}
-              >
-                Fale com a gente
-                <ToolTip title="Fale com a gente" />
-              </MenuItem>
-            </Menu>
-          </Menu>
-        </Sidebar>
-
+        <SideBarDesktop user={user} signOut={signOut} collapsed={collapsed} />
+        {/* home mobile e carrossel */}
         <div
           className={`flex flex-col w-full transition-all duration-300  ${
             !collapsed ? 'md:ml-[300px]' : 'md:ml-[70px]'
           }`}
         >
-          <Header toggleDrawer={toggleDrawer} openDrawer={openDrawer} />
+          <Header
+            toggleDrawer={toggleDrawer}
+            openDrawer={openDrawer}
+            user={user}
+          />
           <div className="flex justify-between w-full items-center px-6 mt-7 md:hidden">
             <CircleOption icon={faTags} title={'Pedido'} link="/orders" />
             <CircleOption
@@ -236,10 +118,67 @@ export default function Home() {
               </div>
             </div>
           </div>
+
           <Container home={true}>
             <>
               <h1 className="text-xl font-semibold mb-5">Oportunidades</h1>
-              <CardMatch next={next} />
+              {Opportunities ? (
+                <Carousel
+                  ref={currentRefCarroussel}
+                  swipeable={false}
+                  showIndicators={false}
+                  swipeScrollTolerance={3000}
+                  showStatus={false}
+                  showThumbs={false}
+                  showArrows={false}
+                  emulateTouch={false}
+                  infiniteLoop={true}
+                  centerSlidePercentage={80}
+                  selectedItem={currentSlide}
+                >
+                  {Opportunities &&
+                    Opportunities.map((res) => {
+                      return (
+                        <CardMatch
+                          key={res.expires_at}
+                          data={res}
+                          next={next}
+                        />
+                      )
+                    })}
+                </Carousel>
+              ) : (
+                <div className="card">
+                  <div className="card-body items-center justify-center gap-4">
+                    <div className="text-center">
+                      <h1 className="text-black/50 text-lg font-medium">
+                        Nenhum pedido disponível
+                      </h1>
+                      <span className="alert alert-success gap-1 bg-success/20 text-success font-medium text-sm">
+                        <FontAwesomeIcon
+                          icon={faExclamationCircle}
+                          className="w-4 h-4"
+                        />
+                        Você será notificado assim que tivermos pedidos
+                        disponíves
+                      </span>
+                    </div>
+                    <div className="md:w-3/4 flex flex-col items-center text-center">
+                      <span>
+                        Enquanto isso, tire todas as suas dúvidas sobre como
+                        utilizar a BuyPhone
+                      </span>
+                      <BlurImage src={noOpportunitiesImg} />
+                    </div>
+                    <button
+                      onClick={() => Router.push('/tutorial')}
+                      className="btn btn-primary w-full"
+                    >
+                      Ir para o tutorial
+                    </button>
+                  </div>
+                </div>
+              )}
             </>
           </Container>
         </div>
@@ -247,3 +186,14 @@ export default function Home() {
     </div>
   )
 }
+
+export const getServerSideProps = PersistentLogin(async (ctx) => {
+  const api = setupAPIClient(ctx)
+  const { data: Opportunities } = await api.get('/opportunities')
+
+  return {
+    props: {
+      Opportunities: Opportunities.data,
+    },
+  }
+}, '/home')

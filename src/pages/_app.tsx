@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Theme } from 'react-daisyui'
 import { ProSidebarProvider } from 'react-pro-sidebar'
+import { AuthProvider } from '../contexts/AuthContext'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [showMyBottom, setShowMyBottom] = useState(false)
@@ -26,16 +27,20 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [router.asPath])
 
   return (
-    <Theme className="bg-primary md:bg-base-100 w-full">
-      <ProSidebarProvider>
-        <div className="pb-14">
-          <Component {...pageProps} />
-        </div>
-        <div className="md:hidden">
-          {!!showMyBottom && <MyBottomNavigation />}
-        </div>
-      </ProSidebarProvider>
-    </Theme>
+    <AuthProvider>
+      <Theme
+        className={`${showMyBottom && 'bg-primary md:bg-base-100 w-full'}`}
+      >
+        <ProSidebarProvider>
+          <div className={`${showMyBottom && 'pb-14'}`}>
+            <Component {...pageProps} />
+          </div>
+          <div className="md:hidden">
+            {!!showMyBottom && <MyBottomNavigation />}
+          </div>
+        </ProSidebarProvider>
+      </Theme>
+    </AuthProvider>
   )
 }
 
