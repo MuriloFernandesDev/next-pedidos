@@ -1,10 +1,9 @@
 import { createContext, ReactNode, useEffect, useState } from 'react'
-import { setCookie, parseCookies, destroyCookie } from 'nookies'
+import { parseCookies, destroyCookie } from 'nookies'
 import axios from 'axios'
 import Router from 'next/router'
 import { IUser } from '../types/user'
 import { setCookies } from '../utils/useCookies'
-import { api } from '../service/api'
 
 type SignInData = {
   email: string
@@ -44,8 +43,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const { data } = await axios.post('/api/login', { email, password })
 
     setCookies('@BuyPhone:Token', data.authorization.token, 60 * 60 * 24 * 30)
-
-    api.defaults.headers['Authorization'] = `Bearer ${data.authorization.token}`
 
     setUser(data.user)
     Router.push('/')
