@@ -1,5 +1,5 @@
-import { ContainerRegister } from '../../components/ContainerRegister'
-import { Input } from '../../components/InputElement'
+import { ContainerRegister } from '../../../components/ContainerRegister'
+import { Input } from '../../../components/InputElement'
 
 export default function document() {
   return (
