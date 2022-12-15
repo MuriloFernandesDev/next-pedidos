@@ -12,8 +12,14 @@ import BlurImage from '../BlurImage'
 import { DrawerProps } from '../Header'
 import JrImg from '../../assets/images/jrmodal.webp'
 import Link from 'next/link'
+import FunctionDeferModal from '../FunctionDefer'
 
-const DrawerComponent = ({ openDrawer, toggleDrawer, user }: DrawerProps) => {
+const DrawerComponent = ({
+  openDrawer,
+  toggleDrawer,
+  user,
+  signOut,
+}: DrawerProps) => {
   return (
     <>
       <Drawer
@@ -135,8 +141,11 @@ const DrawerComponent = ({ openDrawer, toggleDrawer, user }: DrawerProps) => {
             </Link>
           </li>
           <Divider />
-          <li>
-            <button className="flex w-full justify-between">
+          <li onClick={() => signOut()}>
+            <button
+              onClick={toggleDrawer}
+              className="flex w-full justify-between"
+            >
               <div className="flex gap-3 justify-center items-center">
                 <FontAwesomeIcon
                   icon={faRightFromBracket}
@@ -149,39 +158,7 @@ const DrawerComponent = ({ openDrawer, toggleDrawer, user }: DrawerProps) => {
           </li>
         </ul>
       </Drawer>
-      <input type="checkbox" id="my-modal-4" className="modal-toggle" />
-      <label
-        htmlFor="my-modal-4"
-        className="modal cursor-pointer modal-bottom sm:modal-middle"
-      >
-        <label className="modal-box relative" htmlFor="">
-          <div className="flex justify-between items-center">
-            <h1 className="text-xl font-medium text-black">
-              Funcionalidade em desenvolvimento:
-            </h1>
-            <label className="cursor-pointer" htmlFor="my-modal-4">
-              <FontAwesomeIcon icon={faX} className="w-5 h-5" />
-            </label>
-          </div>
-
-          <div className="flex flex-col md:flex-row justify-between mt-4">
-            <span className="text-black/50 mt-2">
-              Estamos sempre buscando melhorias contínuas no processo, e com
-              isso surgem algumas necessidades de melhorias.
-            </span>
-            <div className="w-[80%] md:w-[160%]">
-              <BlurImage src={JrImg} layout="responsive" />
-            </div>
-          </div>
-          <span className="text-error">
-            <FontAwesomeIcon
-              icon={faExclamationCircle}
-              className="w-4 h-4 pr-1"
-            />
-            Você será notificado assim que essa funcionalidade estiver pronta.
-          </span>
-        </label>
-      </label>
+      <FunctionDeferModal />
     </>
   )
 }

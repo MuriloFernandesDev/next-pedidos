@@ -8,18 +8,35 @@ import jwt_decode from 'jwt-decode'
 
 export function PersistentLogin<P>(
   fn: GetServerSideProps<any>,
-  router: string
+  router?: string
 ) {
   return async (
     ctx: GetServerSidePropsContext
   ): Promise<GetServerSidePropsResult<void>> => {
     const { '@BuyPhone:Token': token } = parseCookies(ctx)
 
+    if (token) {
+      const decodedToken = jwt_decode<any>(token) //decodifica o token
+
+      if (Date.now() >= decodedToken.exp * 1000) {
+        destroyCookie(ctx, '@BuyPhone:Token')
+        return {
+          redirect: {
+            destination: '/account/login',
+            permanent: false,
+          },
+        }
+      }
+    }
+
     if (!token) {
-      setCookie(ctx, '@BuyPhone:Router', router, {
-        maxAge: 60 * 60 * 24, // 24h
-        path: '/',
-      })
+      if (router) {
+        setCookie(ctx, '@BuyPhone:Router', router, {
+          maxAge: 60 * 60 * 24, // 24h
+          path: '/',
+        })
+      }
+
       return {
         redirect: {
           destination: '/account/login',
@@ -28,24 +45,6 @@ export function PersistentLogin<P>(
       }
     }
 
-    // if (cookies['@BuyPhone:Token']) {
-    //   const decodedToken = jwt_decode<any>(cookies['@BuyPhone:Token']) //decodifica o token
-
-    //   //se existir um token e estiver expirado, mandar para o login
-    //   if (Date.now() >= decodedToken.exp * 1000) {
-    //     destroyCookie(ctx, '@BuyPhone:Token')
-    //     setCookie(ctx, '@BuyPhone:Router', router, {
-    //       maxAge: 60 * 60 * 24, // 24h
-    //       path: '/',
-    //     })
-    //     return {
-    //       redirect: {
-    //         destination: '/account/login',
-    //         permanent: false,
-    //       },
-    //     }
-    //   }
-    // }
     return await fn(ctx)
   }
 }

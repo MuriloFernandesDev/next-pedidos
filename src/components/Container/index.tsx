@@ -19,13 +19,13 @@ const Container = ({
 }: Props) => {
   return (
     <div
-      className={`max-w-md mx-auto md:max-w-5xl md:mx-auto w-full relative bg-primary md:bg-base-100 ${
+      className={`max-w-md mx-auto md:max-w-5xl md:mx-auto w-full relative bg-primary md:bg-base-100  ${
         !home ? 'pt-10' : 'pt-7'
       }`}
     >
       <div
         className={
-          'p-5 rounded-none w-full rounded-t-xl md:rounded-lg ' +
+          'p-5 rounded-none w-full rounded-t-xl md:rounded-lg min-h-screen md:shadow-lg ' +
           (bgColor !== null ? bgColor : 'bg-primary-content shadow-xl')
         }
       >

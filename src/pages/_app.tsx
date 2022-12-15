@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import { Theme } from 'react-daisyui'
 import { ProSidebarProvider } from 'react-pro-sidebar'
 import { AuthProvider } from '../contexts/AuthContext'
+import BodyContainer from '../components/BodyContainer'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [showMyBottom, setShowMyBottom] = useState(false)
@@ -18,7 +19,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       router.asPath === '/register/email' ||
       router.asPath === '/register/confirm' ||
       router.asPath === '/register/password' ||
-      router.asPath === '/register/terms'
+      router.asPath === '/register/terms' ||
+      router.asPath === '/account/login'
     ) {
       setShowMyBottom(false)
     } else {
@@ -32,9 +34,13 @@ function MyApp({ Component, pageProps }: AppProps) {
         className={`${showMyBottom && 'bg-primary md:bg-base-100 w-full'}`}
       >
         <ProSidebarProvider>
-          <div className={`${showMyBottom && 'pb-14'}`}>
-            <Component {...pageProps} />
-          </div>
+          <BodyContainer>
+            <>
+              <div className={`${showMyBottom && 'pb-14'}`}>
+                <Component {...pageProps} />
+              </div>
+            </>
+          </BodyContainer>
           <div className="md:hidden">
             {!!showMyBottom && <MyBottomNavigation />}
           </div>

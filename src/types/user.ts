@@ -46,3 +46,18 @@ export interface IOpportunities {
   translated_expires_at: string
   will_receive: number
 }
+
+export interface IOrder {
+  cart_id: number
+  code: string
+  date: string
+  invoice_id: number
+  order_id: number
+  price: number
+  product: {
+    color: string
+    memory: string
+    name: string
+  }
+  will_receive: number
+}

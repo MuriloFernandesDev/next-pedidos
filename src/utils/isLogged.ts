@@ -17,7 +17,6 @@ export function isLogged<P>(fn: GetServerSideProps<any>) {
 
       //se existir um token e estiver expirado, mandar para o login
       if (Date.now() >= decodedToken.exp * 1000) {
-        destroyCookie(ctx, '@BuyPhone:User')
         destroyCookie(ctx, '@BuyPhone:Token')
         return {
           redirect: {
@@ -30,7 +29,7 @@ export function isLogged<P>(fn: GetServerSideProps<any>) {
       else {
         return {
           redirect: {
-            destination: '/home',
+            destination: '/',
             permanent: false,
           },
         }

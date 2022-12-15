@@ -13,8 +13,5 @@ export function setupAPIClient(ctx?: any) {
       Authorization: `Bearer ${token}`,
     },
   })
-  // if (token) {
-  //   api.defaults.headers['Authorization'] = `Bearer ${token}`
-  // }
   return api
 }

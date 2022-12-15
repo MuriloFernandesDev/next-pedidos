@@ -17,9 +17,10 @@ export interface DrawerProps {
   toggleDrawer: () => void
   openDrawer: boolean
   user: IUser | null
+  signOut: () => void
 }
 
-const Header = ({ toggleDrawer, openDrawer, user }: DrawerProps) => {
+const Header = ({ toggleDrawer, openDrawer, user, signOut }: DrawerProps) => {
   const { collapseSidebar } = useProSidebar()
   return (
     <React.Fragment>
@@ -58,6 +59,7 @@ const Header = ({ toggleDrawer, openDrawer, user }: DrawerProps) => {
                 className="w-6 h-6 text-primary absolute"
               />
             </div>
+
             <div className="text-primary-content">
               <p className="text-xs">Bem-vindo, </p>
               <p className="text-2xl font-medium">{user && user.name}</p>
@@ -69,6 +71,7 @@ const Header = ({ toggleDrawer, openDrawer, user }: DrawerProps) => {
         openDrawer={openDrawer}
         toggleDrawer={toggleDrawer}
         user={user}
+        signOut={signOut}
       />
     </React.Fragment>
   )

@@ -11,10 +11,11 @@ type SignInData = {
 }
 
 type AuthContextType = {
-  isAuthenticated: boolean
+  // isAuthenticated: boolean
   user: IUser | null
   signIn: (data: SignInData) => Promise<void>
   signOut: () => void
+  isLookingUser: boolean
 }
 
 type AuthProviderProps = {
@@ -25,37 +26,57 @@ export const AuthContext = createContext({} as AuthContextType)
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<IUser | null>(null)
-
-  const isAuthenticated = !!user
+  const [isLookingUser, setIsLookingUser] = useState(true)
+  // const isAuthenticated = !!user
 
   useEffect(() => {
     const { '@BuyPhone:Token': token } = parseCookies()
 
     if (token) {
-      //   recoverUserInformation().then((response) => {
-      //     setUser(response.user)
-      //   })
-      // se possuir um token precisa buscar os dados do usuário pela api
+      axios
+        .get('/api/me')
+        .then((response) => {
+          setUser(response.data)
+        })
+        .catch(() => {
+          destroyCookie(null, '@BuyPhone:Token')
+          Router.push('/account/login')
+        })
     }
-  }, [])
+    setLookingUser()
+  }, []) //effect para buscar usuário pelo token
+
+  const setLookingUser = async () => {
+    await new Promise((resolve) => setTimeout(resolve, 1500))
+    setIsLookingUser(false)
+  } //função para setar usuário como true
 
   async function signIn({ email, password }: SignInData) {
-    const { data } = await axios.post('/api/login', { email, password })
+    const { data } = await axios.post('/api/login', {
+      email,
+      password,
+    })
 
     setCookies('@BuyPhone:Token', data.authorization.token, 60 * 60 * 24 * 30)
 
     setUser(data.user)
+    setIsLookingUser(false)
     Router.push('/')
-  }
+  } //função para realizar login
 
   async function signOut() {
-    setUser(null)
+    setIsLookingUser(true)
+    // destroyCookie(undefined, '@BuyPhone:Token')
     destroyCookie(null, '@BuyPhone:Token')
+    setUser(null)
     Router.push('/account/login')
-  }
+    setLookingUser()
+  } //função para realizar o logout
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ user, /*isAuthenticated,*/ signIn, signOut, isLookingUser }}
+    >
       {children}
     </AuthContext.Provider>
   )

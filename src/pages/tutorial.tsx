@@ -1,7 +1,7 @@
 import Container from '../components/Container'
 import CardTutorial from '../components/CardTutorial'
 
-function Tutorial() {
+export default function Tutorial() {
   return (
     <Container title="Tutorial">
       <div className="flex flex-col gap-5 mt-10 min-h-screen">
@@ -32,5 +32,3 @@ function Tutorial() {
     </Container>
   )
 }
-
-export default Tutorial
