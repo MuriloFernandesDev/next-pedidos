@@ -17,7 +17,7 @@ export default async function handler(
       const response = await superagent
         .post(URL)
         .send(body) // sends a JSON post body
-        // .set('X-API-Key', 'foobar') para adicionar key api
+        // .set('X-API-Key', 'foobar') para adicionar key apim
         .set('Content-Type', 'Application/json')
         .set('Authorization', `Bearer ${token}`)
       res.status(response.status).json(JSON.parse(response.text))

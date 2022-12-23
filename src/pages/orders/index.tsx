@@ -12,7 +12,7 @@ interface OrdersProps {
 
 export default function Orders({ Orders }: OrdersProps) {
   return (
-    <Container bgColor="bg-[#F9F9F9]" title="Pedidos disponíveis">
+    <Container title="Pedidos disponíveis">
       <React.Fragment>
         <div className="flex flex-col gap-4 mt-6 text-primary">
           {Orders &&

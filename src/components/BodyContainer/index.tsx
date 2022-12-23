@@ -22,8 +22,6 @@ const BodyContainer = ({ children }: Props) => {
 
   const { user, signOut, isLookingUser } = useContext(AuthContext)
 
-  console.log(isLookingUser)
-
   return (
     <>
       {isLookingUser ? (
@@ -68,21 +66,14 @@ const BodyContainer = ({ children }: Props) => {
                   : 'md:ml-[70px]'
               }`}
             >
-              {router.asPath === '/register/home' ||
-                router.asPath === '/register/name' ||
-                router.asPath === '/register/document' ||
-                router.asPath === '/register/email' ||
-                router.asPath === '/register/confirm' ||
-                router.asPath === '/register/password' ||
-                router.asPath === '/register/terms' ||
-                (router.asPath === '/account/login' ? null : (
-                  <Header
-                    toggleDrawer={toggleDrawer}
-                    openDrawer={openDrawer}
-                    user={user}
-                    signOut={signOut}
-                  />
-                ))}
+              {router.asPath === '/' ? (
+                <Header
+                  toggleDrawer={toggleDrawer}
+                  openDrawer={openDrawer}
+                  user={user}
+                  signOut={signOut}
+                />
+              ) : null}
 
               {children}
             </div>

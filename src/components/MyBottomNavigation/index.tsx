@@ -6,6 +6,13 @@ import {
   faUser,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  IconBell,
+  IconHome2,
+  IconNews,
+  IconTags,
+  IconUser,
+} from '@tabler/icons'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -79,7 +86,7 @@ const MyBottomNavigation = () => {
             (pos === '10' ? '-mt-6 scale-125' : 'mt-0 scale-100')
           }
         >
-          <FontAwesomeIcon icon={faNewspaper} className="h-5 w-5" />
+          <IconNews size={20} stroke={2} strokeLinejoin="miter" />
         </div>
       </Link>
 
@@ -91,7 +98,7 @@ const MyBottomNavigation = () => {
             (pos === '30' ? '-mt-5 scale-125' : 'mt-0 scale-100')
           }
         >
-          <FontAwesomeIcon icon={faTags} className="h-5 w-5" />
+          <IconTags size={20} stroke={2} strokeLinejoin="miter" />
         </div>
       </Link>
       <Link href="/" passHref>
@@ -102,7 +109,7 @@ const MyBottomNavigation = () => {
             (pos === '50' ? '-mt-7 scale-125' : 'mt-0 scale-100')
           }
         >
-          <FontAwesomeIcon icon={faHome} className="h-5 w-5" />
+          <IconHome2 size={20} stroke={2} strokeLinejoin="miter" />
         </div>
       </Link>
       <Link href="/cart" passHref>
@@ -113,7 +120,7 @@ const MyBottomNavigation = () => {
             (pos === '70' ? '-mt-7 scale-125' : 'mt-0 scale-100')
           }
         >
-          <FontAwesomeIcon icon={faBell} className="h-5 w-5" />
+          <IconBell size={20} stroke={2} strokeLinejoin="miter" />
         </div>
       </Link>
       <Link href="/myshopping" passHref>
@@ -124,7 +131,7 @@ const MyBottomNavigation = () => {
             (pos === '90' ? '-mt-7 scale-125' : 'mt-0 scale-100')
           }
         >
-          <FontAwesomeIcon icon={faUser} className="h-5 w-5" />
+          <IconUser size={20} stroke={2} strokeLinejoin="miter" />
         </div>
       </Link>
     </div>

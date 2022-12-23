@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function Details() {
   return (
-    <Container bgColor="bg-[#F9F9F9]" title="Detalhes do pedido">
+    <Container title="Detalhes do pedido">
       <div className="px-4">
         <div className="card shadow-md mt-11">
           <div className="card-body text-black gap-4">

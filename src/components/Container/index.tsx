@@ -1,5 +1,6 @@
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Router from 'next/router'
 import React, { ReactElement } from 'react'
 
 interface Props {
@@ -14,7 +15,7 @@ const Container = ({
   children,
   title,
   message,
-  bgColor = null,
+  bgColor = '#FFF',
   home,
 }: Props) => {
   return (
@@ -24,16 +25,14 @@ const Container = ({
       }`}
     >
       <div
-        className={
-          'p-5 rounded-none w-full rounded-t-xl md:rounded-lg min-h-screen md:shadow-lg ' +
-          (bgColor !== null ? bgColor : 'bg-primary-content shadow-xl')
-        }
+        className={`p-5 rounded-none w-full rounded-t-xl md:rounded-lg min-h-screen md:shadow-lg bg-[${bgColor}]`}
       >
         {!home && title && (
           <div className="w-full flex flex-row justify-between items-center">
             <FontAwesomeIcon
               icon={faArrowLeft}
               className="text-primary w-5 h-5"
+              onClick={Router.back}
             />
 
             <h1 className="text-primary text-xl font-bold">{title}</h1>

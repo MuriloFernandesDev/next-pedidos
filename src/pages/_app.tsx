@@ -35,11 +35,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       >
         <ProSidebarProvider>
           <BodyContainer>
-            <>
-              <div className={`${showMyBottom && 'pb-14'}`}>
-                <Component {...pageProps} />
-              </div>
-            </>
+            <div className={`${showMyBottom && 'pb-14'}`}>
+              <Component {...pageProps} />
+            </div>
           </BodyContainer>
           <div className="md:hidden">
             {!!showMyBottom && <MyBottomNavigation />}

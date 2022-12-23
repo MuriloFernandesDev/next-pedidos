@@ -12,6 +12,7 @@ import '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/free-regular-svg-icons'
 import { useProSidebar } from 'react-pro-sidebar'
 import { IUser } from '../../types/user'
+import { IconBell, IconMenu2 } from '@tabler/icons'
 
 export interface DrawerProps {
   toggleDrawer: () => void
@@ -26,15 +27,20 @@ const Header = ({ toggleDrawer, openDrawer, user, signOut }: DrawerProps) => {
     <React.Fragment>
       <div className="flex justify-between items-center text-white p-5 md:p-2 md:px-4 bg-primary">
         <button className="btn btn-sm bg-transparent border-transparent">
-          <FontAwesomeIcon
+          <IconMenu2
             onClick={toggleDrawer}
-            icon={faBars}
-            className="w-7 h-7 text-primary-content md:hidden"
+            size={28}
+            className="text-primary-content md:hidden"
+            stroke={2}
+            strokeLinejoin="miter"
           />
-          <FontAwesomeIcon
+
+          <IconMenu2
             onClick={() => collapseSidebar()}
-            icon={faBars}
-            className="w-7 h-7 text-primary-content hidden md:block"
+            size={28}
+            className="text-primary-content hidden md:block"
+            stroke={2}
+            strokeLinejoin="miter"
           />
         </button>
         <div className="w-[50%] md:w-[10%] mr-5">
@@ -46,7 +52,7 @@ const Header = ({ toggleDrawer, openDrawer, user, signOut }: DrawerProps) => {
         </div>
         <Link href="/" passHref>
           <div className="w-auto  cursor-pointer z-50 ease-in-out transition-all duration-300 ">
-            <FontAwesomeIcon icon={faBell} className="h-5 w-5" />
+            <IconBell size={20} stroke={2} strokeLinejoin="miter" />
           </div>
         </Link>
       </div>
