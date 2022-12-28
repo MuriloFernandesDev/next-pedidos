@@ -10,7 +10,7 @@ interface InputProps
   name: string
   label?: string
   error?: { message?: string | undefined }
-  type?: string
+  type: string
 }
 
 const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
@@ -18,7 +18,6 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
   ref
 ) => {
   const [show, setShow] = useState(true)
-
   return (
     <div className="grid gap-2 w-full">
       <div className="w-full">
@@ -35,7 +34,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
             type={type === 'password' ? (show ? type : 'text') : type}
             className="input h-auto py-2 px-0 focus:outline-none relative border-0 rounded-none bg-transparent border-b-[1px] border-primary/60 w-full text-primary"
           />
-          {type === 'password' ? (
+          {type === 'password' && (
             <span
               className="text-gray-400 bg-transparent absolute right-7 mt-[14px] cursor-pointer"
               onClick={() => setShow(!show)}
@@ -46,7 +45,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
                 <FontAwesomeIcon icon={faEye} className="w-5 h-5" />
               )}
             </span>
-          ) : null}
+          )}
         </label>
       </div>
       {!!error && (
