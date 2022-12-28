@@ -24,7 +24,7 @@ export default function login() {
     password: yup
       .string()
       .required('Campo senha é obrigatório')
-      .min(6, 'Mínimo de 6 digitos'),
+      .min(6, 'Mínimo de 6 dígitos'),
   })
 
   const { register, handleSubmit, formState } = useForm<SignInFormData>({
