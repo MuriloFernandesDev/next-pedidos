@@ -19,12 +19,12 @@ export default function login() {
   const signInFormSchema = yup.object().shape({
     email: yup
       .string()
-      .required('Campo email é obrigatório')
-      .email('Esse campo precisa ser um e-mail'),
+      .required('Campo e-mail é obrigatório')
+      .email('Digite um e-mail válido'),
     password: yup
       .string()
       .required('Campo senha é obrigatório')
-      .min(6, 'Minímo 6 digitos'),
+      .min(6, 'Mínimo de 6 dígitos'),
   })
 
   const { register, handleSubmit, formState } = useForm<SignInFormData>({
@@ -35,7 +35,6 @@ export default function login() {
 
   const handleSignIn: SubmitHandler<SignInFormData> = async (values, event) => {
     event?.preventDefault()
-
     await signIn(values)
   }
 
@@ -53,8 +52,8 @@ export default function login() {
             <Input
               {...register('email')}
               type="text"
-              label="Email"
-              error={errors.password}
+              label="E-mail"
+              error={errors.email}
             />
 
             <Input

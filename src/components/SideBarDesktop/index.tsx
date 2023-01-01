@@ -1,18 +1,4 @@
 import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar'
-import {
-  faBrain,
-  faCoins,
-  faExclamation,
-  faExclamationCircle,
-  faHome,
-  faNewspaper,
-  faPhone,
-  faRightFromBracket,
-  faStore,
-  faTags,
-  faUser,
-} from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ToolTip from '../ToolTip'
 import styles from '../../styles/styles.module.css'
 import { IUser } from '../../types/user'
@@ -22,8 +8,6 @@ import {
   IconBrain,
   IconBrandAppgallery,
   IconBrandTelegram,
-  IconBuildingStore,
-  IconCoin,
   IconExclamationCircle,
   IconExclamationMark,
   IconHome2,
@@ -34,13 +18,13 @@ import {
   IconUser,
 } from '@tabler/icons'
 
-interface SideBarProps {
+interface ISideBarProps {
   user: IUser | null
   signOut: () => void
   collapsed: boolean
 }
 
-const SideBarDesktop = ({ user, signOut, collapsed }: SideBarProps) => {
+const SideBarDesktop = ({ user, signOut, collapsed }: ISideBarProps) => {
   return (
     <>
       <Sidebar
@@ -158,18 +142,18 @@ const SideBarDesktop = ({ user, signOut, collapsed }: SideBarProps) => {
                 </span>
               </MenuItem>
             </label>
-            <Link href={'https://pedidos.buyphone.com.br/Boas_Praticas.pdf'}>
-              <a target={'_blank'}>
-                <MenuItem
-                  className={`text-black/50 relative ${styles.hoverToolTip} `}
-                  icon={
-                    <IconBrain size={24} stroke={2} strokeLinejoin="miter" />
-                  }
-                >
-                  Boas práticas
-                  <ToolTip title="Boas práticas" />
-                </MenuItem>
-              </a>
+            <Link
+              href={'https://pedidos.buyphone.com.br/Boas_Praticas.pdf'}
+              passHref
+            >
+              <MenuItem
+                className={`text-black/50 relative ${styles.hoverToolTip} `}
+                icon={<IconBrain size={24} stroke={2} strokeLinejoin="miter" />}
+                target={'_blank'}
+              >
+                Boas práticas
+                <ToolTip title="Boas práticas" />
+              </MenuItem>
             </Link>
             <Link href={'/tutorial'}>
               <MenuItem
