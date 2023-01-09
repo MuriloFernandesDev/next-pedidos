@@ -22,6 +22,7 @@ export interface IUser {
 }
 
 export interface IOpportunities {
+  code: string
   expires_at: string
   miles: {
     miles_logo: string

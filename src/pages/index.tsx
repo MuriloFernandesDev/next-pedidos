@@ -26,7 +26,6 @@ import {
   IconTags,
 } from '@tabler/icons'
 import MatchModal from '../components/Modals/MatchModal'
-import { number } from 'yup'
 
 interface HomeProps {
   Opportunities: Array<IOpportunities>
@@ -41,9 +40,8 @@ export interface IMatch {
 }
 
 export default function Home({ Opportunities, dashStatus }: HomeProps) {
-  const currentRefCarroussel = useRef<any>()
+  const currentRefCarroussel = useRef<any | null>(null)
   const [currentSlide, setCurrentSlide] = useState(1)
-  const [dataMatch, setDataMatch] = useState<IMatch>()
 
   function next() {
     const maxCurrent = currentRefCarroussel.current?.itemsRef.length
@@ -53,20 +51,6 @@ export default function Home({ Opportunities, dashStatus }: HomeProps) {
       return
     }
     setCurrentSlide(currentSlide + 1)
-  }
-
-  function handleMatch(
-    order_id: number,
-    price: number,
-    receive: number,
-    forecast: number
-  ) {
-    setDataMatch({
-      order_id,
-      price,
-      receive,
-      forecast,
-    })
   }
 
   return (
@@ -156,12 +140,7 @@ export default function Home({ Opportunities, dashStatus }: HomeProps) {
               {Opportunities &&
                 Opportunities.map((res) => {
                   return (
-                    <CardMatch
-                      key={res.expires_at}
-                      data={res}
-                      next={next}
-                      handleMatch={handleMatch}
-                    />
+                    <CardMatch key={res.expires_at} data={res} next={next} />
                   )
                 })}
             </Carousel>
@@ -198,7 +177,10 @@ export default function Home({ Opportunities, dashStatus }: HomeProps) {
           )}
         </>
       </Container>
-      <MatchModal dataMatch={dataMatch!} />
+      {Opportunities &&
+        Opportunities.map((res) => {
+          return <MatchModal data={res} />
+        })}
     </>
   )
 }

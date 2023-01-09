@@ -12,6 +12,7 @@ import { ToastContainer } from 'react-toastify'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [showMyBottom, setShowMyBottom] = useState(false)
+
   const router = useRouter()
   useEffect(() => {
     if (

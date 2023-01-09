@@ -7,9 +7,17 @@ interface ICardOrder {
   receive: string | number
   price: string | number
   date: string
+  order_id: number
 }
 
-const CardOrder = ({ cod, name, receive, price, date }: ICardOrder) => {
+const CardOrder = ({
+  cod,
+  name,
+  receive,
+  price,
+  date,
+  order_id,
+}: ICardOrder) => {
   return (
     <div className="card shadow-md">
       <div className="card-body">
@@ -31,9 +39,12 @@ const CardOrder = ({ cod, name, receive, price, date }: ICardOrder) => {
             </div>
           </div>
         </Link>
-        <button className="btn btn-outline hover:btn-primary">
-          Reservar pedido
-        </button>
+        <label
+          className="btn btn-outline hover:btn-primary"
+          htmlFor={order_id.toString()}
+        >
+          <button>Reservar pedido</button>
+        </label>
       </div>
     </div>
   )

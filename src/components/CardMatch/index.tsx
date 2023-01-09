@@ -18,10 +18,9 @@ import MatchModal from '../Modals/MatchModal'
 interface CardMatchProps {
   next: () => void
   data: any
-  handleMatch: Function
 }
 
-const CardMatch = ({ next, data, handleMatch }: CardMatchProps) => {
+const CardMatch = ({ next, data }: CardMatchProps) => {
   const [failMatch, setFailMatch] = useState(false)
   const [successMatch, setSuccessMatch] = useState(false)
   const handleOpenModalItsMatch = () => {
@@ -139,15 +138,7 @@ const CardMatch = ({ next, data, handleMatch }: CardMatchProps) => {
 
             <label
               className="btn btn-circle bg-transparent text-success hover:bg-success hover:text-white border-success rounded-full"
-              htmlFor="match-modal"
-              onClick={() =>
-                handleMatch(
-                  data.order_id,
-                  data.price,
-                  data.will_receive,
-                  data.price
-                )
-              }
+              htmlFor={data.order_id.toString()}
             >
               <FontAwesomeIcon icon={faHeart} className="w-6 h-6" />
             </label>

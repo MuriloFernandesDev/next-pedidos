@@ -3,31 +3,33 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Image from 'next/image'
 import ItsAMatchImg from '../../../assets/images/itsAMatch.webp'
 import BelaItsAMatch from '../../../assets/images/bela_its_a_match.webp'
-import PhoneImg from '../../../assets/images/celularTeste.svg'
 import { IconExclamationCircle } from '@tabler/icons'
-import { IMatch } from '../../../pages'
 import { useContext } from 'react'
 import { AuthContext } from '../../../contexts/AuthContext'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
+import { IOpportunities } from '../../../types/user'
 
 interface MatchModalProps {
-  dataMatch: IMatch
+  data: IOpportunities
 }
 
-const MatchModal = ({ dataMatch }: MatchModalProps) => {
+const MatchModal = ({ data }: MatchModalProps) => {
   const { user } = useContext(AuthContext)
   const router = useRouter()
 
   async function handleMatch() {
     try {
-      const data = {
-        ...dataMatch,
+      const dataApi = {
+        order_id: data.order_id,
+        price: data.price,
+        receive: data.will_receive,
+        forecast: data.miles.miles_money,
         user_id: user?.id,
         status: 'reservado',
       }
-      const response = await axios.post('api/store', data)
+      const response = await axios.post('api/store', dataApi)
 
       if (response.data.message) {
         toast.success(response.data.message)
@@ -46,11 +48,18 @@ const MatchModal = ({ dataMatch }: MatchModalProps) => {
 
   return (
     <>
-      <input type="checkbox" id={'match-modal'} className="modal-toggle" />
-      <label htmlFor={'match-modal'} className="modal cursor-pointer">
+      <input
+        type="checkbox"
+        id={data.order_id.toString()}
+        className="modal-toggle"
+      />
+      <label
+        htmlFor={data.order_id.toString()}
+        className="modal cursor-pointer"
+      >
         <label className="modal-box relative flex flex-col gap-3" htmlFor="">
           <label
-            htmlFor={'match-modal'}
+            htmlFor={data.order_id.toString()}
             className="absolute right-4 top-4 cursor-pointer"
           >
             <FontAwesomeIcon icon={faX} className="h-5 w-5 text-[#CCCCCC]" />
@@ -68,10 +77,15 @@ const MatchModal = ({ dataMatch }: MatchModalProps) => {
               />
             </div>
             <div className="flex flex-col justify-center items-center rounded-full w-36 h-36 bg-[#EBEBEB] relative overflow-hidden">
-              <Image src={PhoneImg} layout="fixed" width={60} height={70} />
+              <Image
+                src={data.product.photo}
+                layout="fixed"
+                width={60}
+                height={70}
+              />
 
               <span className="text-xs text-black text-center px-3">
-                iPhone 12 PRO MAX Azul-Sierra 256Gb
+                {data.product.name} {data.product.color} - {data.product.memory}
               </span>
             </div>
           </div>
@@ -102,7 +116,7 @@ const MatchModal = ({ dataMatch }: MatchModalProps) => {
           </button>
           <label
             className="btn btn-outline w-full hover:bg-transparent hover:text-primary"
-            htmlFor={'match-modal'}
+            htmlFor={data.order_id.toString()}
           >
             cancelar
           </label>
