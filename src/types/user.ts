@@ -61,3 +61,10 @@ export interface IOrder {
   }
   will_receive: number
 }
+
+export interface IDashboard {
+  analyzing: number
+  completed: number
+  done: number
+  reserved: number
+}

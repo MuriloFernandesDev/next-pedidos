@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react'
-import { faNewspaper } from '@fortawesome/free-regular-svg-icons'
 import {
   faExclamationCircle,
   faHeart,
@@ -18,7 +17,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import BlurImage from '../components/BlurImage'
 import noOpportunitiesImg from '../assets/images/noOpportunities.webp'
 import Router from 'next/router'
-import { IOpportunities } from '../types/user'
+import { IDashboard, IOpportunities } from '../types/user'
 import { destroyCookie } from 'nookies'
 import {
   IconBrandAppgallery,
@@ -26,14 +25,25 @@ import {
   IconNews,
   IconTags,
 } from '@tabler/icons'
+import MatchModal from '../components/Modals/MatchModal'
+import { number } from 'yup'
 
 interface HomeProps {
   Opportunities: Array<IOpportunities>
+  dashStatus: IDashboard
 }
 
-export default function Home({ Opportunities }: HomeProps) {
+export interface IMatch {
+  order_id: number
+  price: number
+  receive: number
+  forecast: number
+}
+
+export default function Home({ Opportunities, dashStatus }: HomeProps) {
   const currentRefCarroussel = useRef<any>()
   const [currentSlide, setCurrentSlide] = useState(1)
+  const [dataMatch, setDataMatch] = useState<IMatch>()
 
   function next() {
     const maxCurrent = currentRefCarroussel.current?.itemsRef.length
@@ -43,6 +53,20 @@ export default function Home({ Opportunities }: HomeProps) {
       return
     }
     setCurrentSlide(currentSlide + 1)
+  }
+
+  function handleMatch(
+    order_id: number,
+    price: number,
+    receive: number,
+    forecast: number
+  ) {
+    setDataMatch({
+      order_id,
+      price,
+      receive,
+      forecast,
+    })
   }
 
   return (
@@ -73,7 +97,8 @@ export default function Home({ Opportunities }: HomeProps) {
           link="/tutorial"
         />
       </div>
-      <div className="md:max-w-5xl md:mx-auto w-full hidden md:flex flex-col mt-5">
+
+      <div className="md:max-w-5xl md:mx-auto w-full flex flex-col mt-5">
         <h1 className="text-primary text-xl font-bold">Dados</h1>
         <div className="shadow-xl md:flex stats w-full mb-5">
           <div className="stat py-8">
@@ -81,7 +106,7 @@ export default function Home({ Opportunities }: HomeProps) {
               <FontAwesomeIcon icon={faHeart} className="w-12 h-12" />
             </div>
             <div className="stat-title">Matches Reservados</div>
-            <div className="stat-value">0</div>
+            <div className="stat-value">{dashStatus.reserved}</div>
           </div>
           <div className="stat py-8">
             <div className="stat-figure text-info">
@@ -91,14 +116,14 @@ export default function Home({ Opportunities }: HomeProps) {
               />
             </div>
             <div className="stat-title">Matches em Análise</div>
-            <div className="stat-value">0</div>
+            <div className="stat-value">{dashStatus.analyzing}</div>
           </div>
           <div className="stat py-8">
             <div className="stat-figure text-warning">
               <FontAwesomeIcon icon={faSackDollar} className="w-12 h-12" />
             </div>
             <div className="stat-title">Vendas Recebidas</div>
-            <div className="stat-value">0</div>
+            <div className="stat-value">{dashStatus.done}</div>
           </div>
           <div className="stat py-8">
             <div className="stat-figure text-success">
@@ -106,7 +131,7 @@ export default function Home({ Opportunities }: HomeProps) {
               <FontAwesomeIcon icon={faWallet} className="w-12 h-12" />
             </div>
             <div className="stat-title">Vendas a Receber</div>
-            <div className="stat-value">0</div>
+            <div className="stat-value">{dashStatus.completed}</div>
           </div>
         </div>
       </div>
@@ -114,7 +139,7 @@ export default function Home({ Opportunities }: HomeProps) {
       <Container home={true}>
         <>
           <h1 className="text-xl font-semibold mb-5">Oportunidades</h1>
-          {Opportunities ? (
+          {Opportunities.length > 0 ? (
             <Carousel
               ref={currentRefCarroussel}
               swipeable={false}
@@ -131,7 +156,12 @@ export default function Home({ Opportunities }: HomeProps) {
               {Opportunities &&
                 Opportunities.map((res) => {
                   return (
-                    <CardMatch key={res.expires_at} data={res} next={next} />
+                    <CardMatch
+                      key={res.expires_at}
+                      data={res}
+                      next={next}
+                      handleMatch={handleMatch}
+                    />
                   )
                 })}
             </Carousel>
@@ -168,6 +198,7 @@ export default function Home({ Opportunities }: HomeProps) {
           )}
         </>
       </Container>
+      <MatchModal dataMatch={dataMatch!} />
     </>
   )
 }
@@ -177,10 +208,12 @@ export const getServerSideProps = PersistentLogin(async (ctx) => {
 
   try {
     const { data: Opportunities } = await api.get('/opportunities')
+    const { data: dashStatus } = await api.get('/stats')
 
     return {
       props: {
         Opportunities: Opportunities.data,
+        dashStatus: dashStatus,
       },
     }
   } catch {

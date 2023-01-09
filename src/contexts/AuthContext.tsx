@@ -5,6 +5,7 @@ import Router from 'next/router'
 import { IUser } from '../types/user'
 import { setCookies } from '../utils/useCookies'
 import { toast } from 'react-toastify'
+import { deleteCookie } from 'cookies-next'
 
 type SignInData = {
   email: string
@@ -55,10 +56,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   async function signOut() {
     setIsLookingUser(true)
-    destroyCookie(null, '@BuyPhone:Token')
+    deleteCookie('@BuyPhone:Token')
     setUser(null)
-    await setLookingUser()
     Router.push('/account/login')
+    await setLookingUser()
   } //função para realizar o logout
 
   useEffect(() => {
