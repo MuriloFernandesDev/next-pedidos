@@ -22,7 +22,8 @@ const MatchModal = ({ data }: MatchModalProps) => {
   async function handleMatch() {
     try {
       const dataApi = {
-        order_id: data.order_id,
+        hash: data.code,
+        cart_id: data.cart_id,
         price: data.price,
         receive: data.will_receive,
         forecast: data.miles.miles_money,
@@ -30,6 +31,8 @@ const MatchModal = ({ data }: MatchModalProps) => {
         status: 'reservado',
       }
       const response = await axios.post('api/store', dataApi)
+
+      console.log(response)
 
       if (response.data.message) {
         toast.success(response.data.message)
@@ -40,6 +43,7 @@ const MatchModal = ({ data }: MatchModalProps) => {
         toast.error(response.data.Error)
       }
     } catch (err) {
+      console.log(err)
       toast.error(
         'Ocorreu algum erro na realização do match, tente mais tarde.'
       )

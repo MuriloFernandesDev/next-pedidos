@@ -22,6 +22,7 @@ export interface IUser {
 }
 
 export interface IOpportunities {
+  cart_id: number
   code: string
   expires_at: string
   miles: {

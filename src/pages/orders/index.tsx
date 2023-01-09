@@ -12,7 +12,6 @@ interface OrdersProps {
 }
 
 export default function Orders({ Orders }: OrdersProps) {
-  console.log(Orders)
   return (
     <>
       <Container title="Pedidos disponíveis">
@@ -35,7 +34,7 @@ export default function Orders({ Orders }: OrdersProps) {
       </Container>
       {Orders &&
         Orders.map((res) => {
-          return <MatchModal data={res} />
+          return <MatchModal key={res.order_id} data={res} />
         })}
     </>
   )
@@ -51,7 +50,8 @@ export const getServerSideProps = PersistentLogin(async (ctx) => {
         Orders: Opportunities.data,
       },
     }
-  } catch {
+  } catch (error) {
+    console.log(error)
     destroyCookie(ctx, '@BuyPhone:Token')
     return {
       redirect: {

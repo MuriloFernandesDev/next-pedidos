@@ -20,6 +20,7 @@ export function PersistentLogin<P>(
 
       if (Date.now() >= decodedToken.exp * 1000) {
         destroyCookie(ctx, '@BuyPhone:Token')
+        console.log('token destruido no persistent login')
         return {
           redirect: {
             destination: '/account/login',

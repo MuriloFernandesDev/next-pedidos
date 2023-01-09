@@ -23,6 +23,7 @@ export default async function handler(
       res.status(response.status).json(JSON.parse(response.text))
     } catch (err: any) {
       if (err.status === 401) {
+        console.log('Token destruido no /api - erro 401 - metodo post')
         destroyCookie({ req }, '@BuyPhone:Token')
       }
       res.status(err.status).json(JSON.parse(err.response.text))
@@ -40,6 +41,7 @@ export default async function handler(
       res.status(response.status).json(JSON.parse(response.text))
     } catch (err: any) {
       if (err.status === 401) {
+        console.log('Token destruido no /api - erro 401 - metodo get')
         destroyCookie({ req }, '@BuyPhone:Token')
       }
       res.status(err.status).json(JSON.parse(err.response.text))
@@ -56,6 +58,7 @@ export default async function handler(
       res.status(response.status).json(JSON.parse(response.text))
     } catch (err: any) {
       if (err.status === 401) {
+        console.log('Token destruido no /api - erro 401 - metodo delete')
         destroyCookie({ req }, '@BuyPhone:Token')
       }
       res.status(err.status).json(JSON.parse(err.response.text))
@@ -72,6 +75,7 @@ export default async function handler(
       res.status(response.status).json(JSON.parse(response.text))
     } catch (err: any) {
       if (err.status === 401) {
+        console.log('Token destruido no /api - erro 401 - metodo put')
         destroyCookie({ req }, '@BuyPhone:Token')
       }
       res.status(err.status).json(JSON.parse(err.response.text))

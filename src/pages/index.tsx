@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import {
   faExclamationCircle,
   faHeart,
@@ -26,6 +26,8 @@ import {
   IconTags,
 } from '@tabler/icons'
 import MatchModal from '../components/Modals/MatchModal'
+import axios from 'axios'
+import { LookingContext } from '../contexts/isLookingData'
 
 interface HomeProps {
   Opportunities: Array<IOpportunities>
@@ -39,7 +41,7 @@ export interface IMatch {
   forecast: number
 }
 
-export default function Home({ Opportunities, dashStatus }: HomeProps) {
+export default function Home({ dashStatus, Opportunities }: HomeProps) {
   const currentRefCarroussel = useRef<any | null>(null)
   const [currentSlide, setCurrentSlide] = useState(1)
 
@@ -52,6 +54,18 @@ export default function Home({ Opportunities, dashStatus }: HomeProps) {
     }
     setCurrentSlide(currentSlide + 1)
   }
+
+  // useEffect(() => {
+  //   async function getOpportunities() {
+  //     try {
+  //       const { data: Opportunities } = await axios.get('/api/opportunities')
+  //       setOpportunities(Opportunities.data)
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }
+  //   getOpportunities()
+  // }, [])
 
   return (
     <>
@@ -123,7 +137,7 @@ export default function Home({ Opportunities, dashStatus }: HomeProps) {
       <Container home={true}>
         <>
           <h1 className="text-xl font-semibold mb-5">Oportunidades</h1>
-          {Opportunities.length > 0 ? (
+          {Opportunities && Opportunities.length > 0 ? (
             <Carousel
               ref={currentRefCarroussel}
               swipeable={false}
@@ -139,9 +153,7 @@ export default function Home({ Opportunities, dashStatus }: HomeProps) {
             >
               {Opportunities &&
                 Opportunities.map((res) => {
-                  return (
-                    <CardMatch key={res.expires_at} data={res} next={next} />
-                  )
+                  return <CardMatch key={res.cart_id} data={res} next={next} />
                 })}
             </Carousel>
           ) : (
@@ -179,7 +191,7 @@ export default function Home({ Opportunities, dashStatus }: HomeProps) {
       </Container>
       {Opportunities &&
         Opportunities.map((res) => {
-          return <MatchModal data={res} />
+          return <MatchModal key={res.cart_id} data={res} />
         })}
     </>
   )
@@ -189,16 +201,17 @@ export const getServerSideProps = PersistentLogin(async (ctx) => {
   const api = setupAPIClient(ctx)
 
   try {
-    const { data: Opportunities } = await api.get('/opportunities')
     const { data: dashStatus } = await api.get('/stats')
+    const { data: Opportunities } = await api.get('/opportunities')
 
     return {
       props: {
-        Opportunities: Opportunities.data,
         dashStatus: dashStatus,
+        Opportunities: Opportunities.data,
       },
     }
-  } catch {
+  } catch (error) {
+    console.log(error)
     destroyCookie(ctx, '@BuyPhone:Token')
     return {
       redirect: {

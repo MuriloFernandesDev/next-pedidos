@@ -31,7 +31,7 @@ const Container = ({
           <div className="w-full flex flex-row justify-between items-center">
             <FontAwesomeIcon
               icon={faArrowLeft}
-              className="text-primary w-5 h-5"
+              className="text-primary w-5 h-5 cursor-pointer"
               onClick={Router.back}
             />
 

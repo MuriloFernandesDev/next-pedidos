@@ -6,6 +6,7 @@ import Header from '../Header'
 import SideBarDesktop from '../SideBarDesktop'
 import LogoImg from '../../assets/images/LogoWhite.webp'
 import { useRouter } from 'next/router'
+import { LookingContext } from '../../contexts/isLookingData'
 
 interface Props {
   children: ReactElement
@@ -20,11 +21,12 @@ const BodyContainer = ({ children }: Props) => {
     setOpenDrawer((prevState) => !prevState)
   }
 
-  const { user, signOut, isLookingUser } = useContext(AuthContext)
+  const { user, signOut } = useContext(AuthContext)
+  const { isLooking } = useContext(LookingContext)
 
   return (
     <>
-      {isLookingUser ? (
+      {isLooking ? (
         <div className="fixed w-screen h-screen bg-primary flex justify-center items-center z-[999999]">
           <div className="animate-bounce duration-[3000ms] p-20">
             <Image src={LogoImg}></Image>
