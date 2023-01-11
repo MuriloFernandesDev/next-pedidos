@@ -6,7 +6,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons'
 
 function New() {
   return (
-    <Container bgColor="bg-[#F9F9F9]" title="Nova conta bancária">
+    <Container bgColor="bg-[#FFF]" title="Nova conta bancária">
       <div className="mt-10">
         <div className="flex flex-col gap-3">
           <Input

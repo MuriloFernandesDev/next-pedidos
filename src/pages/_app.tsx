@@ -7,6 +7,8 @@ import { Theme } from 'react-daisyui'
 import { ProSidebarProvider } from 'react-pro-sidebar'
 import { AuthProvider } from '../contexts/AuthContext'
 import BodyContainer from '../components/BodyContainer'
+import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer } from 'react-toastify'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [showMyBottom, setShowMyBottom] = useState(false)
@@ -35,11 +37,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       >
         <ProSidebarProvider>
           <BodyContainer>
-            <>
-              <div className={`${showMyBottom && 'pb-14'}`}>
-                <Component {...pageProps} />
-              </div>
-            </>
+            <div className={`${showMyBottom && 'pb-14'}`}>
+              <Component {...pageProps} />
+              <ToastContainer />
+            </div>
           </BodyContainer>
           <div className="md:hidden">
             {!!showMyBottom && <MyBottomNavigation />}

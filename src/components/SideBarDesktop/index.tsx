@@ -1,31 +1,30 @@
 import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar'
-import {
-  faBrain,
-  faCoins,
-  faExclamation,
-  faExclamationCircle,
-  faHome,
-  faNewspaper,
-  faPhone,
-  faRightFromBracket,
-  faStore,
-  faTags,
-  faUser,
-} from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ToolTip from '../ToolTip'
 import styles from '../../styles/styles.module.css'
 import { IUser } from '../../types/user'
 import FunctionDeferModal from '../FunctionDefer'
 import Link from 'next/link'
+import {
+  IconBrain,
+  IconBrandAppgallery,
+  IconBrandTelegram,
+  IconExclamationCircle,
+  IconExclamationMark,
+  IconHome2,
+  IconLogout,
+  IconNews,
+  IconPigMoney,
+  IconTags,
+  IconUser,
+} from '@tabler/icons'
 
-interface SideBarProps {
+interface ISideBarProps {
   user: IUser | null
   signOut: () => void
   collapsed: boolean
 }
 
-const SideBarDesktop = ({ user, signOut, collapsed }: SideBarProps) => {
+const SideBarDesktop = ({ user, signOut, collapsed }: ISideBarProps) => {
   return (
     <>
       <Sidebar
@@ -54,7 +53,7 @@ const SideBarDesktop = ({ user, signOut, collapsed }: SideBarProps) => {
             <Link href={'/'}>
               <MenuItem
                 className={`text-black/50 relative ${styles.hoverToolTip} pt-4 `}
-                icon={<FontAwesomeIcon icon={faHome} className="w-6 h-6" />}
+                icon={<IconHome2 size={24} stroke={2} strokeLinejoin="miter" />}
               >
                 Página inicial
                 <ToolTip title="Página inicial" />
@@ -64,7 +63,7 @@ const SideBarDesktop = ({ user, signOut, collapsed }: SideBarProps) => {
             <Link href={'/orders'}>
               <MenuItem
                 className={`text-black/50 relative ${styles.hoverToolTip} `}
-                icon={<FontAwesomeIcon icon={faTags} className="w-6 h-6" />}
+                icon={<IconTags size={24} stroke={2} strokeLinejoin="miter" />}
               >
                 Pedidos
                 <ToolTip title="Pedidos" />
@@ -76,15 +75,21 @@ const SideBarDesktop = ({ user, signOut, collapsed }: SideBarProps) => {
                 className={`text-black/50 relative ${styles.hoverToolTip} `}
                 icon={
                   <div className="relative">
-                    <FontAwesomeIcon icon={faStore} className="w-6 h-6" />
+                    <IconBrandAppgallery
+                      size={24}
+                      stroke={2}
+                      strokeLinejoin="miter"
+                    />
                     <span
                       className={`badge p-1 left-4 -top-2 badge-warning absolute ${
                         !collapsed && 'hidden'
                       }`}
                     >
-                      <FontAwesomeIcon
-                        icon={faExclamation}
-                        className="w-3 h-3 text-[#955B04] "
+                      <IconExclamationMark
+                        size={12}
+                        className="text-[#955B04]"
+                        stroke={2}
+                        strokeLinejoin="miter"
                       />
                     </span>
                   </div>
@@ -93,7 +98,12 @@ const SideBarDesktop = ({ user, signOut, collapsed }: SideBarProps) => {
                 Estoque
                 <ToolTip title="Estoque" />
                 <span className="badge badge-warning bg-warning gap-1 text-[#955B04] ml-3">
-                  <FontAwesomeIcon icon={faExclamationCircle} />
+                  <IconExclamationCircle
+                    size={17}
+                    className="text-[#955B04]"
+                    stroke={2}
+                    strokeLinejoin="miter"
+                  />
                   Em breve
                 </span>
               </MenuItem>
@@ -103,15 +113,17 @@ const SideBarDesktop = ({ user, signOut, collapsed }: SideBarProps) => {
                 className={`text-black/50 relative ${styles.hoverToolTip} `}
                 icon={
                   <div className="relative">
-                    <FontAwesomeIcon icon={faCoins} className="w-6 h-6" />
+                    <IconPigMoney size={24} stroke={2} strokeLinejoin="miter" />
                     <span
                       className={`badge p-1 left-4 -top-2 badge-warning absolute ${
                         !collapsed && 'hidden'
                       }`}
                     >
-                      <FontAwesomeIcon
-                        icon={faExclamation}
-                        className="w-3 h-3 text-[#955B04]"
+                      <IconExclamationMark
+                        size={12}
+                        className="text-[#955B04]"
+                        stroke={2}
+                        strokeLinejoin="miter"
                       />
                     </span>
                   </div>
@@ -120,28 +132,33 @@ const SideBarDesktop = ({ user, signOut, collapsed }: SideBarProps) => {
                 Financeiro
                 <ToolTip title="Financeiro" />
                 <span className="badge badge-warning gap-1 text-[#955B04] ml-3">
-                  <FontAwesomeIcon icon={faExclamationCircle} />
+                  <IconExclamationCircle
+                    size={17}
+                    className="text-[#955B04]"
+                    stroke={2}
+                    strokeLinejoin="miter"
+                  />
                   Em breve
                 </span>
               </MenuItem>
             </label>
-            <Link href={'https://pedidos.buyphone.com.br/Boas_Praticas.pdf'}>
-              <a target={'_blank'}>
-                <MenuItem
-                  className={`text-black/50 relative ${styles.hoverToolTip} `}
-                  icon={<FontAwesomeIcon icon={faBrain} className="w-6 h-6" />}
-                >
-                  Boas práticas
-                  <ToolTip title="Boas práticas" />
-                </MenuItem>
-              </a>
+            <Link
+              href={'https://pedidos.buyphone.com.br/Boas_Praticas.pdf'}
+              passHref
+            >
+              <MenuItem
+                className={`text-black/50 relative ${styles.hoverToolTip} `}
+                icon={<IconBrain size={24} stroke={2} strokeLinejoin="miter" />}
+                target={'_blank'}
+              >
+                Boas práticas
+                <ToolTip title="Boas práticas" />
+              </MenuItem>
             </Link>
             <Link href={'/tutorial'}>
               <MenuItem
                 className={`text-black/50 relative ${styles.hoverToolTip} `}
-                icon={
-                  <FontAwesomeIcon icon={faNewspaper} className="w-6 h-6" />
-                }
+                icon={<IconNews size={24} stroke={2} strokeLinejoin="miter" />}
               >
                 Tutorial
                 <ToolTip title="Tutorial" />
@@ -149,14 +166,20 @@ const SideBarDesktop = ({ user, signOut, collapsed }: SideBarProps) => {
             </Link>
             <MenuItem
               className={`text-black/50 relative ${styles.hoverToolTip} `}
-              icon={<FontAwesomeIcon icon={faUser} className="w-6 h-6" />}
+              icon={<IconUser size={24} stroke={2} strokeLinejoin="miter" />}
             >
               Minha Conta
               <ToolTip title="Minha Conta" />
             </MenuItem>
             <MenuItem
               className={`text-black/50 relative ${styles.hoverToolTip} `}
-              icon={<FontAwesomeIcon icon={faPhone} className="w-6 h-6" />}
+              icon={
+                <IconBrandTelegram
+                  size={24}
+                  stroke={2}
+                  strokeLinejoin="miter"
+                />
+              }
             >
               Fale com a gente
               <ToolTip title="Fale com a gente" />
@@ -164,12 +187,7 @@ const SideBarDesktop = ({ user, signOut, collapsed }: SideBarProps) => {
             <MenuItem
               onClick={signOut}
               className={`text-black/50 relative ${styles.hoverToolTip} `}
-              icon={
-                <FontAwesomeIcon
-                  icon={faRightFromBracket}
-                  className="w-6 h-6"
-                />
-              }
+              icon={<IconLogout size={24} stroke={2} strokeLinejoin="miter" />}
             >
               Sair
               <ToolTip title="Sair" />

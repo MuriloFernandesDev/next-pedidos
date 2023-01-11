@@ -1,18 +1,12 @@
-import { faUserCircle } from '@fortawesome/free-regular-svg-icons'
-import {
-  faExclamationCircle,
-  faRightFromBracket,
-  faX,
-} from '@fortawesome/free-solid-svg-icons'
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Divider } from 'react-daisyui'
 import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
-import BlurImage from '../BlurImage'
 import { DrawerProps } from '../Header'
-import JrImg from '../../assets/images/jrmodal.webp'
 import Link from 'next/link'
 import FunctionDeferModal from '../FunctionDefer'
+import { IconLogout, IconUser } from '@tabler/icons'
 
 const DrawerComponent = ({
   openDrawer,
@@ -38,10 +32,11 @@ const DrawerComponent = ({
                     src={user.profile_photo_path}
                     width={32}
                     height={32}
-                    layout="fixed"
+                    layout="fixed"  
                   />
                 ) : ( */}
-                <FontAwesomeIcon icon={faUserCircle} className="w-8 h-8" />
+                {/* <FontAwesomeIcon icon={faUserCircle} className="w-8 h-8" /> */}
+                <IconUser size={32} stroke={2} strokeLinejoin="miter" />
                 {/* )} */}
 
                 <div className="flex flex-col items-start">
@@ -147,10 +142,7 @@ const DrawerComponent = ({
               className="flex w-full justify-between"
             >
               <div className="flex gap-3 justify-center items-center">
-                <FontAwesomeIcon
-                  icon={faRightFromBracket}
-                  className="w-7 h-7"
-                />
+                <IconLogout size={28} stroke={2} strokeLinejoin="miter" />
 
                 <h1 className="text-md">Sair</h1>
               </div>

@@ -8,7 +8,7 @@ import Link from 'next/link'
 
 function index() {
   return (
-    <Container bgColor="bg-[#F9F9F9]" title="Minha conta">
+    <Container bgColor="bg-[#FFF]" title="Minha conta">
       <React.Fragment>
         <div className="flex flex-col gap-4 mt-6 text-primary">
           <div className="flex flex-col mx-auto gap-4">

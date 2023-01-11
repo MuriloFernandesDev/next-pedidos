@@ -1,9 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { faNewspaper } from '@fortawesome/free-regular-svg-icons'
 import {
-  faStore,
-  faTags,
-  faDollar,
   faExclamationCircle,
   faHeart,
   faHeartCircleExclamation,
@@ -23,6 +20,12 @@ import noOpportunitiesImg from '../assets/images/noOpportunities.webp'
 import Router from 'next/router'
 import { IOpportunities } from '../types/user'
 import { destroyCookie } from 'nookies'
+import {
+  IconBrandAppgallery,
+  IconCurrencyDollar,
+  IconNews,
+  IconTags,
+} from '@tabler/icons'
 
 interface HomeProps {
   Opportunities: Array<IOpportunities>
@@ -45,14 +48,30 @@ export default function Home({ Opportunities }: HomeProps) {
   return (
     <>
       <div className="flex justify-between w-full items-center px-6 mt-7 md:hidden">
-        <CircleOption icon={faTags} title={'Pedido'} link="/orders" />
         <CircleOption
-          icon={faDollar}
+          icon={<IconTags size={24} stroke={2} strokeLinejoin="miter" />}
+          title={'Pedido'}
+          link="/orders"
+        />
+        <CircleOption
+          icon={
+            <IconCurrencyDollar size={24} stroke={2} strokeLinejoin="miter" />
+          }
           title={'Matches'}
           link="/orders/matches"
         />
-        <CircleOption icon={faStore} title={'Estoque'} link={''} />
-        <CircleOption icon={faNewspaper} title={'Tutorial'} link="/tutorial" />
+        <CircleOption
+          icon={
+            <IconBrandAppgallery size={24} stroke={2} strokeLinejoin="miter" />
+          }
+          title={'Estoque'}
+          link={''}
+        />
+        <CircleOption
+          icon={<IconNews size={24} stroke={2} strokeLinejoin="miter" />}
+          title={'Tutorial'}
+          link="/tutorial"
+        />
       </div>
       <div className="md:max-w-5xl md:mx-auto w-full hidden md:flex flex-col mt-5">
         <h1 className="text-primary text-xl font-bold">Dados</h1>
