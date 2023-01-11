@@ -36,7 +36,7 @@ const MatchModal = ({ data }: MatchModalProps) => {
 
       if (response.data.message) {
         toast.success(response.data.message)
-        router.push('/orders/matches')
+        router.push('/orders/match')
       }
 
       if (response.data.Error) {

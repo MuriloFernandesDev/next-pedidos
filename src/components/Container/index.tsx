@@ -55,7 +55,9 @@ const Container = ({
           </h1>
         )}
         {!!home && title && <div className="divider"></div>}
-        <div>{children}</div>
+        <div className={Router.asPath !== '/' ? 'max-w-2xl mx-auto' : ''}>
+          {children}
+        </div>
       </div>
     </div>
   )

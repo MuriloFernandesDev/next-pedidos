@@ -10,6 +10,7 @@ import {
   IconBrandTelegram,
   IconExclamationCircle,
   IconExclamationMark,
+  IconHeart,
   IconHome2,
   IconLogout,
   IconNews,
@@ -67,6 +68,16 @@ const SideBarDesktop = ({ user, signOut, collapsed }: ISideBarProps) => {
               >
                 Pedidos
                 <ToolTip title="Pedidos" />
+              </MenuItem>
+            </Link>
+
+            <Link href={'/orders/match'}>
+              <MenuItem
+                className={`text-black/50 relative ${styles.hoverToolTip} `}
+                icon={<IconHeart size={24} stroke={2} strokeLinejoin="miter" />}
+              >
+                Match's
+                <ToolTip title="Match" />
               </MenuItem>
             </Link>
 
@@ -164,13 +175,15 @@ const SideBarDesktop = ({ user, signOut, collapsed }: ISideBarProps) => {
                 <ToolTip title="Tutorial" />
               </MenuItem>
             </Link>
-            <MenuItem
-              className={`text-black/50 relative ${styles.hoverToolTip} `}
-              icon={<IconUser size={24} stroke={2} strokeLinejoin="miter" />}
-            >
-              Minha Conta
-              <ToolTip title="Minha Conta" />
-            </MenuItem>
+            <Link href={'/myaccount'}>
+              <MenuItem
+                className={`text-black/50 relative ${styles.hoverToolTip} `}
+                icon={<IconUser size={24} stroke={2} strokeLinejoin="miter" />}
+              >
+                Minha Conta
+                <ToolTip title="Minha Conta" />
+              </MenuItem>
+            </Link>
             <MenuItem
               className={`text-black/50 relative ${styles.hoverToolTip} `}
               icon={

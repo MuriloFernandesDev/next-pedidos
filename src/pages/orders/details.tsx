@@ -1,7 +1,21 @@
 import Container from '../../components/Container'
 import React from 'react'
+import { PersistentLogin } from '../../utils/PersistentLogin'
+import { useCookies } from '../../utils/useCookies'
+import { IOpportunities } from '../../types/user'
+import { moneyMask } from '../../utils/masks'
 
-export default function Details() {
+interface DetailsProps {
+  OrderDetails: IOpportunities
+}
+
+export default function Details({ OrderDetails }: DetailsProps) {
+  const resultDiscount = OrderDetails.price - OrderDetails.will_receive
+  const resultDiscountPercent = (
+    (resultDiscount / OrderDetails.price) *
+    100
+  ).toFixed(1)
+
   return (
     <Container title="Detalhes do pedido">
       <div className="px-4">
@@ -9,19 +23,24 @@ export default function Details() {
           <div className="card-body text-black gap-4">
             <div>
               <span>ID do pedido</span>
-              <p className="text-black/60">#c15c6165</p>
+              <p className="text-black/60">{OrderDetails.code}</p>
             </div>
             <div>
               <span>Produto</span>
-              <p className="text-black/60">iPhone 12 Apple Branco 64Gb</p>
+              <p className="text-black/60">
+                {OrderDetails.product.name} {OrderDetails.product.color}{' '}
+                {OrderDetails.product.memory}
+              </p>
             </div>
             <div>
               <span>Valor do pedido</span>
-              <p className="text-black/60">R$3.430,00</p>
+              <p className="text-black/60">
+                R$ {moneyMask(OrderDetails.price.toString())}
+              </p>
             </div>
             <div>
-              <span>Pecentual retido BuyPhone</span>
-              <p className="text-black/60">7,5%</p>
+              <span>Percentual retido pela BuyPhone</span>
+              <p className="text-black/60">{resultDiscountPercent}%</p>
             </div>
             <div className="flex gap-10 items-center">
               <div>
@@ -35,7 +54,9 @@ export default function Details() {
             </div>
             <div>
               <span>Valor que recebe</span>
-              <p className="text-black/60">R$3.172,75</p>
+              <p className="text-black/60">
+                R$ {moneyMask(OrderDetails.will_receive.toString())}
+              </p>
             </div>
             <div>
               <span>Tipo do match</span>
@@ -47,3 +68,22 @@ export default function Details() {
     </Container>
   )
 }
+
+export const getServerSideProps = PersistentLogin(async (ctx) => {
+  const details = useCookies('@BuyPhone:OrderDetails', ctx)
+
+  if (details) {
+    return {
+      props: {
+        OrderDetails: details,
+      },
+    }
+  } else {
+    return {
+      redirect: {
+        destination: '/orders',
+        permanent: false,
+      },
+    }
+  }
+}, '/orders/details')

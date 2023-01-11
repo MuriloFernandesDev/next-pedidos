@@ -6,13 +6,13 @@ import { useRouter } from 'next/router'
 import { Theme } from 'react-daisyui'
 import { ProSidebarProvider } from 'react-pro-sidebar'
 import { AuthProvider } from '../contexts/AuthContext'
-import { LookingProvider } from '../contexts/isLookingData'
 import BodyContainer from '../components/BodyContainer'
 import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [showMyBottom, setShowMyBottom] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   const router = useRouter()
   useEffect(() => {
@@ -33,25 +33,23 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [router.asPath])
 
   return (
-    <LookingProvider>
-      <AuthProvider>
-        <Theme
-          className={`${showMyBottom && 'bg-primary md:bg-base-100 w-full'}`}
-        >
-          <ProSidebarProvider>
-            <BodyContainer>
-              <div className={`${showMyBottom && 'pb-14'}`}>
-                <Component {...pageProps} />
-                <ToastContainer />
-              </div>
-            </BodyContainer>
-            <div className="md:hidden">
-              {!!showMyBottom && <MyBottomNavigation />}
+    <AuthProvider>
+      <Theme
+        className={`${showMyBottom && 'bg-primary md:bg-base-100 w-full'}`}
+      >
+        <ProSidebarProvider>
+          <BodyContainer>
+            <div className={`${showMyBottom && 'pb-14 md:pb-0'}`}>
+              <Component {...pageProps} />
+              <ToastContainer />
             </div>
-          </ProSidebarProvider>
-        </Theme>
-      </AuthProvider>
-    </LookingProvider>
+          </BodyContainer>
+          <div className="md:hidden">
+            {!!showMyBottom && <MyBottomNavigation />}
+          </div>
+        </ProSidebarProvider>
+      </Theme>
+    </AuthProvider>
   )
 }
 

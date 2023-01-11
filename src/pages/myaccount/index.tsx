@@ -1,12 +1,17 @@
 import Container from '../../components/Container'
-import React from 'react'
+import React, { useContext } from 'react'
 import { Input } from '../../components/InputElement'
 import CardAccountBank from '../../components/CardAccountBank'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
+import { PersistentLogin } from '../../utils/PersistentLogin'
+import { AuthContext } from '../../contexts/AuthContext'
 
-function index() {
+export default function index() {
+  const { user } = useContext(AuthContext)
+  console.log(user)
+
   return (
     <Container bgColor="bg-[#FFF]" title="Minha conta">
       <React.Fragment>
@@ -25,31 +30,26 @@ function index() {
               type="text"
               name="CNPJ"
               label="Nome completo"
-              placeholder="Murilo Fernandes"
+              defaultValue={user?.name}
             />
             <Input
               type="text"
               name="CNPJ"
               label="CPF"
-              placeholder="200.000.000-00"
+              defaultValue={user?.document}
             />
             <Input
               type="text"
               name="CNPJ"
               label="Nascimento"
-              placeholder="20/20/2000"
+              defaultValue={user?.birthday}
             />
-            <Input
-              type="text"
-              name="CNPJ"
-              label="Celular"
-              placeholder="99 99999-9999"
-            />
+            <Input type="text" name="CNPJ" label="Celular" />
             <Input
               type="text"
               name="CNPJ"
               label="E-mail"
-              placeholder="murilo21@gmail.com"
+              defaultValue={user?.email}
             />
             <Input
               type="text"
@@ -93,4 +93,8 @@ function index() {
   )
 }
 
-export default index
+export const getServerSideProps = PersistentLogin(async (ctx) => {
+  return {
+    props: {},
+  }
+}, '/myaccount')

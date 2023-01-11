@@ -56,23 +56,6 @@ const Header = ({ toggleDrawer, openDrawer, user, signOut }: DrawerProps) => {
           </div>
         </Link>
       </div>
-      <div className="pt-5 pb-4 border-b-2 border-primary-content/50 md:hidden">
-        <div className="flex justify-between items-center px-6">
-          <div className="flex gap-3 items-center">
-            <div className="w-12 h-12 rounded-full relative flex justify-center items-center bg-primary-content">
-              <FontAwesomeIcon
-                icon={faUser}
-                className="w-6 h-6 text-primary absolute"
-              />
-            </div>
-
-            <div className="text-primary-content">
-              <p className="text-xs">Bem-vindo, </p>
-              <p className="text-2xl font-medium">{user && user.name}</p>
-            </div>
-          </div>
-        </div>
-      </div>
       <DrawerComponent
         openDrawer={openDrawer}
         toggleDrawer={toggleDrawer}

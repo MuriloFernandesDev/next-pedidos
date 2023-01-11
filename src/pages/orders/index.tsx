@@ -1,39 +1,61 @@
 import Container from '../../components/Container'
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import CardOrder from '../../components/CardOrder'
 import { PersistentLogin } from '../../utils/PersistentLogin'
 import { setupAPIClient } from '../../service/api'
-import { IOpportunities, IOrder } from '../../types/user'
-import { destroyCookie } from 'nookies'
+import { IOpportunities } from '../../types/user'
 import MatchModal from '../../components/Modals/MatchModal'
+import { toast } from 'react-toastify'
+import { deleteCookie } from 'cookies-next'
+import axios from 'axios'
+import Router from 'next/router'
+import { AuthContext } from '../../contexts/AuthContext'
 
 interface OrdersProps {
   Orders: Array<IOpportunities> | null
 }
 
 export default function Orders({ Orders }: OrdersProps) {
+  const [ordersVariant, setOrdersVariant] = useState(Orders) //state para controlar os dados de Orders
+
+  useEffect(() => {
+    async function verifyVariablesFromServer() {
+      if (!ordersVariant) {
+        try {
+          const { data: Opportunities } = await axios.get('/api/opportunities')
+          setOrdersVariant(Opportunities.data)
+        } catch {
+          toast.error(
+            'Não foi possível carregar os dados, faça login novamente...'
+          )
+          deleteCookie('@BuyPhone:Token')
+
+          Router.push('/account/login')
+        }
+      }
+    }
+    verifyVariablesFromServer()
+    /*
+    verifica se os dados de Orders foram carregados pelo lado do servidor,
+    se não foi carregado tenta carregar pelo lado do cliente,
+    se não conseguir desloga o usuário pois tem algo de errado com o token dos cookies 
+    */
+  }, [])
+
   return (
     <>
       <Container title="Pedidos disponíveis">
         <React.Fragment>
           <div className="flex flex-col gap-4 mt-6 text-primary">
-            {Orders &&
-              Orders.map((res) => (
-                <CardOrder
-                  key={res.code}
-                  cod={res.code}
-                  date={res.expires_at}
-                  name={res.product.name}
-                  price={res.price}
-                  receive={res.will_receive}
-                  order_id={res.order_id}
-                />
+            {ordersVariant &&
+              ordersVariant.map((res) => (
+                <CardOrder key={res.code} data={res} />
               ))}
           </div>
         </React.Fragment>
       </Container>
-      {Orders &&
-        Orders.map((res) => {
+      {ordersVariant &&
+        ordersVariant.map((res) => {
           return <MatchModal key={res.order_id} data={res} />
         })}
     </>
@@ -52,11 +74,9 @@ export const getServerSideProps = PersistentLogin(async (ctx) => {
     }
   } catch (error) {
     console.log(error)
-    destroyCookie(ctx, '@BuyPhone:Token')
     return {
-      redirect: {
-        destination: '/account/login',
-        permanent: false,
+      props: {
+        Orders: null,
       },
     }
   }

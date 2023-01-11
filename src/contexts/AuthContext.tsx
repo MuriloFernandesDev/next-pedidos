@@ -1,18 +1,11 @@
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import { createContext, ReactNode, useEffect, useState } from 'react'
 import { parseCookies, destroyCookie } from 'nookies'
 import axios, { AxiosError } from 'axios'
-import Router, { useRouter } from 'next/router'
+import Router from 'next/router'
 import { IUser } from '../types/user'
 import { setCookies } from '../utils/useCookies'
 import { toast } from 'react-toastify'
 import { deleteCookie } from 'cookies-next'
-import { LookingContext } from './isLookingData'
 
 type SignInData = {
   email: string
@@ -20,22 +13,26 @@ type SignInData = {
 }
 
 type AuthContextType = {
-  // isAuthenticated: boolean
   user: IUser | null
   signIn: (data: SignInData) => Promise<void>
   signOut: () => void
+  isLookingUser: boolean
 }
 
 type AuthProviderProps = {
-  children: any
+  children: ReactNode
 }
 
 export const AuthContext = createContext({} as AuthContextType)
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<IUser | null>(null)
-  const { setLookingFalse } = useContext(LookingContext)
-  const router = useRouter()
+  const [isLookingUser, setIsLookingUser] = useState(true)
+
+  const setLookingUser = async (time: number) => {
+    await new Promise((resolve) => setTimeout(resolve, time))
+    setIsLookingUser(false)
+  } //função para setar usuário como true
 
   async function signIn({ email, password }: SignInData) {
     try {
@@ -47,21 +44,28 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setCookies('@BuyPhone:Token', data.authorization.token, 60 * 60 * 24 * 30)
 
       setUser(data.user)
-      setLookingFalse()
-      router.push('/')
+      setIsLookingUser(false)
+      Router.push('/')
     } catch (error) {
-      console.log(error)
-      setLookingFalse()
       const errorData = (error as AxiosError)?.response?.data as Error
       toast.error(errorData?.message)
     }
   } //função para realizar login
 
   async function signOut() {
-    deleteCookie('@BuyPhone:Token')
-    setUser(null)
-    Router.push('/account/login')
-    setLookingFalse()
+    setIsLookingUser(true)
+    try {
+      await axios.post('/api/logout')
+      deleteCookie('@BuyPhone:Token')
+      setUser(null)
+      Router.push('/account/login')
+    } catch (err) {
+      deleteCookie('@BuyPhone:Token')
+      setUser(null)
+      Router.push('/account/login')
+    }
+
+    await setLookingUser(2000)
   } //função para realizar o logout
 
   useEffect(() => {
@@ -76,18 +80,22 @@ export function AuthProvider({ children }: AuthProviderProps) {
           })
           .catch(() => {
             destroyCookie(null, '@BuyPhone:Token')
-            console.log('Token destruido no useEffect do context')
             Router.push('/account/login')
           })
       }
-      setLookingFalse()
+      await setLookingUser(1000)
     }
     userSearch()
   }, []) //effect para buscar usuário pelo token
 
   return (
     <AuthContext.Provider
-      value={{ user, /*isAuthenticated,*/ signIn, signOut }}
+      value={{
+        user,
+        signIn,
+        signOut,
+        isLookingUser,
+      }}
     >
       {children}
     </AuthContext.Provider>
