@@ -31,7 +31,7 @@ const Container = ({
           <div className="w-full flex flex-row justify-between items-center">
             <FontAwesomeIcon
               icon={faArrowLeft}
-              className="text-primary w-5 h-5"
+              className="text-primary w-5 h-5 cursor-pointer"
               onClick={Router.back}
             />
 
@@ -55,7 +55,9 @@ const Container = ({
           </h1>
         )}
         {!!home && title && <div className="divider"></div>}
-        <div>{children}</div>
+        <div className={Router.asPath !== '/' ? 'max-w-2xl mx-auto' : ''}>
+          {children}
+        </div>
       </div>
     </div>
   )

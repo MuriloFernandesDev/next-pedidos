@@ -12,6 +12,8 @@ import { ToastContainer } from 'react-toastify'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [showMyBottom, setShowMyBottom] = useState(false)
+  const [loading, setLoading] = useState(true)
+
   const router = useRouter()
   useEffect(() => {
     if (
@@ -37,7 +39,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       >
         <ProSidebarProvider>
           <BodyContainer>
-            <div className={`${showMyBottom && 'pb-14'}`}>
+            <div className={`${showMyBottom && 'pb-14 md:pb-0'}`}>
               <Component {...pageProps} />
               <ToastContainer />
             </div>

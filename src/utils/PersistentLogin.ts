@@ -16,10 +16,22 @@ export function PersistentLogin<P>(
     const { '@BuyPhone:Token': token } = parseCookies(ctx)
 
     if (token) {
-      const decodedToken = jwt_decode<any>(token) //decodifica o token
+      try {
+        const decodedToken = jwt_decode<any>(token) //decodifica o token
 
-      if (Date.now() >= decodedToken.exp * 1000) {
+        if (Date.now() >= decodedToken.exp * 1000) {
+          destroyCookie(ctx, '@BuyPhone:Token')
+          console.log('token destruido no persistent login')
+          return {
+            redirect: {
+              destination: '/account/login',
+              permanent: false,
+            },
+          }
+        }
+      } catch {
         destroyCookie(ctx, '@BuyPhone:Token')
+        console.log('token destruido no persistent login')
         return {
           redirect: {
             destination: '/account/login',

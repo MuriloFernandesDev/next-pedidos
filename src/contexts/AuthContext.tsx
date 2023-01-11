@@ -5,6 +5,7 @@ import Router from 'next/router'
 import { IUser } from '../types/user'
 import { setCookies } from '../utils/useCookies'
 import { toast } from 'react-toastify'
+import { deleteCookie } from 'cookies-next'
 
 type SignInData = {
   email: string
@@ -12,7 +13,6 @@ type SignInData = {
 }
 
 type AuthContextType = {
-  // isAuthenticated: boolean
   user: IUser | null
   signIn: (data: SignInData) => Promise<void>
   signOut: () => void
@@ -28,10 +28,9 @@ export const AuthContext = createContext({} as AuthContextType)
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<IUser | null>(null)
   const [isLookingUser, setIsLookingUser] = useState(true)
-  // const isAuthenticated = !!user
 
-  const setLookingUser = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+  const setLookingUser = async (time: number) => {
+    await new Promise((resolve) => setTimeout(resolve, time))
     setIsLookingUser(false)
   } //função para setar usuário como true
 
@@ -55,10 +54,18 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   async function signOut() {
     setIsLookingUser(true)
-    destroyCookie(null, '@BuyPhone:Token')
-    setUser(null)
-    await setLookingUser()
-    Router.push('/account/login')
+    try {
+      await axios.post('/api/logout')
+      deleteCookie('@BuyPhone:Token')
+      setUser(null)
+      Router.push('/account/login')
+    } catch (err) {
+      deleteCookie('@BuyPhone:Token')
+      setUser(null)
+      Router.push('/account/login')
+    }
+
+    await setLookingUser(2000)
   } //função para realizar o logout
 
   useEffect(() => {
@@ -76,14 +83,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
             Router.push('/account/login')
           })
       }
-      await setLookingUser()
+      await setLookingUser(1000)
     }
     userSearch()
   }, []) //effect para buscar usuário pelo token
 
   return (
     <AuthContext.Provider
-      value={{ user, /*isAuthenticated,*/ signIn, signOut, isLookingUser }}
+      value={{
+        user,
+        signIn,
+        signOut,
+        isLookingUser,
+      }}
     >
       {children}
     </AuthContext.Provider>

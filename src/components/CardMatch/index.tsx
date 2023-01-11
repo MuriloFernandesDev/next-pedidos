@@ -10,8 +10,10 @@ import Image from 'next/image'
 import { useState } from 'react'
 import GosteiImg from '../../assets/images/gostei.svg'
 import OuterImg from '../../assets/images/outer.svg'
+import { IMatch } from '../../pages'
 import { moneyMask } from '../../utils/masks'
 import BlurImage from '../BlurImage'
+import MatchModal from '../Modals/MatchModal'
 
 interface CardMatchProps {
   next: () => void
@@ -134,12 +136,12 @@ const CardMatch = ({ next, data }: CardMatchProps) => {
               />
             </button>
 
-            <button
-              onClick={() => wrapperFunction('success')}
+            <label
               className="btn btn-circle bg-transparent text-success hover:bg-success hover:text-white border-success rounded-full"
+              htmlFor={data.order_id.toString()}
             >
               <FontAwesomeIcon icon={faHeart} className="w-6 h-6" />
-            </button>
+            </label>
           </div>
         </div>
       </div>

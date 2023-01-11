@@ -1,11 +1,11 @@
 import Image from 'next/image'
-import { ReactElement, useContext, useState } from 'react'
+import { ReactElement, useContext, useEffect, useState } from 'react'
 import { useProSidebar } from 'react-pro-sidebar'
 import { AuthContext } from '../../contexts/AuthContext'
 import Header from '../Header'
 import SideBarDesktop from '../SideBarDesktop'
-import LogoImg from '../../assets/images/LogoWhite.webp'
 import { useRouter } from 'next/router'
+import LoadingScreen from '../LoadingScreen'
 
 interface Props {
   children: ReactElement
@@ -24,12 +24,8 @@ const BodyContainer = ({ children }: Props) => {
 
   return (
     <>
-      {isLookingUser ? (
-        <div className="fixed w-screen h-screen bg-primary flex justify-center items-center z-[999999]">
-          <div className="animate-bounce duration-[3000ms] p-20">
-            <Image src={LogoImg}></Image>
-          </div>
-        </div>
+      {isLookingUser === true ? (
+        <LoadingScreen />
       ) : (
         <div className="relative max-w-md md:max-w-none mx-auto">
           <div className="flex">
@@ -74,8 +70,7 @@ const BodyContainer = ({ children }: Props) => {
                   signOut={signOut}
                 />
               ) : null}
-
-              {children}
+              <>{children}</>
             </div>
           </div>
         </div>

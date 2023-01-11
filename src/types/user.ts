@@ -22,6 +22,8 @@ export interface IUser {
 }
 
 export interface IOpportunities {
+  cart_id: number
+  code: string
   expires_at: string
   miles: {
     miles_logo: string
@@ -48,10 +50,21 @@ export interface IOpportunities {
 }
 
 export interface IOrder {
+  approved: boolean
   cart_id: number
   code: string
-  date: string
+  dates: {
+    invoice_date: string
+    match_created: string
+    match_expires: string
+    match_expires_translated: string
+    match_paid: string | null
+    match_updated: string
+  }
+
   invoice_id: number
+  media: []
+  notes: null | string
   order_id: number
   price: number
   product: {
@@ -59,5 +72,13 @@ export interface IOrder {
     memory: string
     name: string
   }
+  status: string
   will_receive: number
+}
+
+export interface IDashboard {
+  analyzing: number
+  completed: number
+  done: number
+  reserved: number
 }
